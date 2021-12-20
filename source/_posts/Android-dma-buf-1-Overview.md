@@ -1,6 +1,6 @@
 ---
 layout: blog
-title: 'Android dma-buf(1) -- Simple'
+title: 'dma-buf深入浅出--(1)简介'
 date: 2021-02-17 16:55:30
 categories:
 - Android
@@ -35,3 +35,12 @@ dma-buf 最初的原型为 `shrbuf`，由 Marek Szyprowski （Samsung）于2011�
 - Patch: [dma-buf: Introduce dma buffer sharing mechanism](https://cgit.freedesktop.org/~airlied/linux/commit/?h=drm-prime-dmabuf&id=dc4e05acd66a13a1a30de07f21a0420f2949caa8)
 - 第一个使用 dma-buf 的 DRM 分支: [drm-prime-dmabuf](https://cgit.freedesktop.org/~airlied/linux/log/?h=drm-prime-dmabuf)
 
+
+#### 概念
+
+dna-buf的出现就是为了解决各个驱动之间buffer共享的问题，因此它的本质上是buffer与file的结合，即dma-buf即是块物理buffer，又是个Linux file。buffer是内容，file是媒介，只有通过file这个媒介才能实现同一buffer在不同驱动之间的流转。
+下面是一个典型的dma-buf应用框图：
+![dma-buf-arch](Android-dma-buf-1-Overview/dma-buf-arch.png)
+
+通常我们会把分配buffer的模块称为`exporter`，将使用该buffer的模块称为`importer`或者`user`。这里importer特指内核空间的使用者，user特指用户空间的使用者。
+有的人习惯将 exporter 说成是生产者，importer 说成是消费者，我个人认为这样的说法并不严谨。举例来说，Android 系统中，graphic buffer 都是由 ION 来分配的，GPU 负责填充该 buffer，DPU 负责显示该 buffer。那么在这里，ION 则是 exporter，GPU 和 DPU 则都是 importer。但是从生产者/消费者模型来讲，GPU 则是生产者，DPU 是消费者，因此不能片面的认为 exporter 就是生产者。
