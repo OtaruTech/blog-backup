@@ -22,6 +22,7 @@ Android的软件系统架构其实挺清晰的，这里的话以大模块直接�
 
 - [C/C++](https://otarutech.github.io/categories/Linux/C-C/)
     - [线程池的实现](https://otarutech.github.io/2021/12/18/Linux-ThreadPool/)
+    - [bazel编译&构建](https://otarutech.github.io/tags/bazel/)
 - [Kernel](https://otarutech.github.io/categories/Linux/Kernel/)
     - [巧妙的kfifo](https://otarutech.github.io/2021/12/18/Linux-kfifo/)
 
