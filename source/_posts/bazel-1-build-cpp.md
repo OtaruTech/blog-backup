@@ -6,6 +6,7 @@ categories:
 - C/C++
 tags:
 - bazel
+cover: /img/bazel.jpg
 ---
 
 ## 1. bazel介绍

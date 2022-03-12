@@ -9,6 +9,7 @@ tags:
 - Thread
 - 线程池
 - 线程管理
+cover: /img/threadpool.jpg
 ---
 
 ### 前言

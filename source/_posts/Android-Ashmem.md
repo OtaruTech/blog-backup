@@ -8,6 +8,7 @@ tags:
 - 内存
 - ashmem
 - 共享内存
+cover: /img/android-ashmem.png
 ---
 
 ## 1. 进程间通信之共享内存

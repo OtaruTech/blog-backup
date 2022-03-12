@@ -9,6 +9,7 @@ tags:
 - kfifo
 - RingBuffer
 - FIFO
+cover: /img/kfifo.jpg
 ---
 
 在编写一个字符驱动的时候想用一个`Ring Buffer`的结构来做数据的读取/写入，自己去设计了一个`RingBuffer`的数据结构，然后使用一个`read/write`的指针来指向读取和写入`buffer`的地址，由于是`ring buffer`所以会考虑到写入超过size的时候回到起始地址的操作。

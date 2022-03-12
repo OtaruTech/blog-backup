@@ -6,6 +6,7 @@ categories:
 - Android
 - ION内存管理
 tags:
+cover: /img/android-ion.png
 ---
 内存共享和大块内存的使用，在实际场景下面的需求是很多的，这里，举三个简单的应用场景：
 

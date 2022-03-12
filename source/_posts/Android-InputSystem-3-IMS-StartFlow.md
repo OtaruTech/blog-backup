@@ -6,6 +6,7 @@ categories:
 - Android
 - Input子系统
 tags:
+cover: /img/android-input.jpg
 ---
 InputManagerService是Android framework中核心service之一，Android framework层涉及的代码也是非常多，
 

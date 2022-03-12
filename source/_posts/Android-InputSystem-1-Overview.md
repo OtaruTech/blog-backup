@@ -6,6 +6,7 @@ categories:
 - Android
 - Input子系统
 tags:
+cover: /img/android-input.jpg
 ---
 ### 前言
 

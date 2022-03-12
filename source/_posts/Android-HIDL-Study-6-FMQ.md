@@ -5,6 +5,7 @@ categories:
 - Android
 - HIDL
 tags:
+cover: /img/android-hidl.png
 ---
 想聊聊FMQ的，无意中看到下面这篇文章，写的很好，所以就直接拿来用了，笑纳笑纳~
 

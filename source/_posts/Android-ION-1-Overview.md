@@ -6,6 +6,7 @@ categories:
 - Android
 - ION内存管理
 tags:
+cover: /img/android-ion.png
 ---
 ##### **ION的设计初衷**
 

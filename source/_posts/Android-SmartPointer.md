@@ -5,6 +5,7 @@ categories:
 - Android
 - 智能指针
 tags: Android
+cover: /img/smart-pointer.jpg
 ---
 
 Android的核心库基本都是由C++代码编写的，这也证明了C++代码的潜力，面向对象的可扩展性很强，而且不失性能的流失，确实是大型项目的首选编程语言。

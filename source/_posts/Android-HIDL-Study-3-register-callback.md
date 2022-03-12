@@ -5,8 +5,8 @@ categories:
 - Android
 - HIDL
 tags:
+cover: /img/android-hidl.png
 ---
-
 #### **回顾一下**
 
 上一节我们学会了如何创建HIDL的server端和client端，对于那些没玩过Android O或者以上的BSP开发者而言，可以吹上一阵子牛逼了，毕竟比人家多了一个技能，面试的时候也可以装一下了^_^

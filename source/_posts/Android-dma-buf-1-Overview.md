@@ -6,7 +6,7 @@ categories:
 - Android
 - dma-buf
 tags:
-
+cover: /img/android-dma-buf.png
 ---
 
 #### 前言

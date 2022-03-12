@@ -5,6 +5,7 @@ categories:
 - Android
 - HIDL
 tags:
+cover: /img/android-hidl.png
 ---
 #### **写在前面**
 

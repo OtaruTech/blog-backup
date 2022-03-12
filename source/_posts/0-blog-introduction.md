@@ -2,6 +2,8 @@
 title: 博客导航
 date: 2088-12-18 08:46:02
 tags:
+cover: /img/tag_cate.jpg
+sticky: 1
 ---
 
 不忘初心，勇往直前！！！^_^

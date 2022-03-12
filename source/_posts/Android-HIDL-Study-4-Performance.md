@@ -5,6 +5,7 @@ categories:
 - Android
 - HIDL
 tags:
+cover: /img/android-hidl.png
 ---
 #### 写在前面
 公司一些方案，在Andoird P上架构必须要修改成HIDL，不然会遇到一系列的Selinux的问题，所以决定还是按照标准的Android HIDL的架构重新写了方案（因为比较机密，所以不透露具体方案代码）。但是我们的这个模块对性能的要求非常高，不然咱们的设备怎么能打败竞争对手呢，怎么屹立在世界500强呢，对吧。^_^

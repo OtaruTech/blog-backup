@@ -5,6 +5,7 @@ categories:
 - Android
 - HIDL
 tags:
+cover: /img/android-hidl.png
 ---
 前面我们学习了如何使用HIDL来设计或者重构之前在HAL层的代码，而且也对比了一些高性能的编程方式，这里我们在来一下Android的HIDL在设计上的一些考虑。
 
