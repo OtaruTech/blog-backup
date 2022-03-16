@@ -19,10 +19,15 @@ sticky: 1
 - [智能指针](https://otarutech.github.io/categories/Android/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/)
 - [ashmem匿名共享内存](https://otarutech.github.io/2022/01/03/Android-Ashmem/)
 
-### Linux
+### Linux & 内核
+
+- [Kernel](https://otarutech.github.io/categories/Linux/Kernel/)
+    - [巧妙的kfifo](https://otarutech.github.io/2021/12/18/Linux-kfifo/)
+
+### C++
 
 - [C/C++](https://otarutech.github.io/categories/Linux/C-C/)
     - [线程池的实现](https://otarutech.github.io/2021/12/18/Linux-ThreadPool/)
     - [bazel编译&构建](https://otarutech.github.io/tags/bazel/)
-- [Kernel](https://otarutech.github.io/categories/Linux/Kernel/)
-    - [巧妙的kfifo](https://otarutech.github.io/2021/12/18/Linux-kfifo/)
+    - [C++11](https://otarutech.github.io/categories/C/C-11/)
+- [C++ Tips of the Week](https://otarutech.github.io/categories/C-Tips-of-the-Week/)

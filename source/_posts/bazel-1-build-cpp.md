@@ -2,8 +2,9 @@
 title: bazel构建C++工程
 date: 2021-12-24 08:01:40
 categories:
-- Linux
 - C/C++
+- bazel
+
 tags:
 - bazel
 cover: /img/bazel.jpg

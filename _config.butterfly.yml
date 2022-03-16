@@ -77,7 +77,7 @@ favicon: /img/favicon.jpg
 
 # Avatar (頭像)
 avatar:
-  img: /img/favicon.jpg
+  img: /img/avatar.jpg
   effect: false
 
 # Disable all banner image
@@ -621,7 +621,7 @@ aside:
     button:
       enable: true
       icon: fab fa-github
-      text: Follow Me
+      text: 关注我^_^
       link: https://github.com/otarutech
   card_announcement:
     enable: true
