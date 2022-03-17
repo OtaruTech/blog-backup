@@ -1,5 +1,5 @@
 ---
-title: Tip of the Week #1: string_view
+title: Tip of the Week 1 string_view
 date: 2022-03-16 20:35:20
 tags:
 - C++11

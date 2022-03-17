@@ -29,5 +29,7 @@ sticky: 1
 - [C/C++](https://otarutech.github.io/categories/Linux/C-C/)
     - [线程池的实现](https://otarutech.github.io/2021/12/18/Linux-ThreadPool/)
     - [bazel编译&构建](https://otarutech.github.io/tags/bazel/)
-    - [C++11](https://otarutech.github.io/categories/C/C-11/)
+
+- [C++11](https://otarutech.github.io/categories/C/C-11/)
+
 - [C++ Tips of the Week](https://otarutech.github.io/categories/C-Tips-of-the-Week/)
