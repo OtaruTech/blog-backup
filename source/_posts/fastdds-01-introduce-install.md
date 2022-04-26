@@ -9,7 +9,8 @@ tags:
 categories:
 - FastDDS
 
-cover: /img/fastdds-01-cover.png
+cover: /img/fastdds-intro.png
+
 ---
 
 ## 写在前面
