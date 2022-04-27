@@ -2,6 +2,14 @@
 title: FastDDS进程间内存共享
 date: 2022-04-26 23:50:23
 tags:
+- FastDDS
+- DDS
+- 自动驾驶
+
+categories:
+- FastDDS
+
+cover: /img/fastdds-03-shm-arch.png
 ---
 
 ## 概述

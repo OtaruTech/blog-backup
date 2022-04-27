@@ -8,7 +8,11 @@ sticky: 1
 
 不忘初心，勇往直前！！！^_^
 - **2022-01-14 在你可能在浪费时间的时候，想想那些揪心的日子！(时间是最宝贵的资源)**
+- **2022-04-27 不忘初心！**
 
+
+### 自动驾驶
+- [Fast DDS](https://otarutech.github.io/categories/FastDDS/)
 
 ### Android系统
 
