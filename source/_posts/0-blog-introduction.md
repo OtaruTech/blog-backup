@@ -10,6 +10,15 @@ sticky: 1
 - **2022-01-14 在你可能在浪费时间的时候，想想那些揪心的日子！(时间是最宝贵的资源)**
 - **2022-04-27 不忘初心！**
 
+### Android系统
+- [搭建Android系统模拟器开发环境](https://otarutech.github.io/2022/12/11/Android-Emulator-Dev/)
+- [Input子系统](https://otarutech.github.io/categories/Android/Input%E5%AD%90%E7%B3%BB%E7%BB%9F/)
+- [ION内存管理](https://otarutech.github.io/categories/Android/ION%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/)
+- [Treble架构中的HIDL](https://otarutech.github.io/categories/Android/HIDL/)
+- [dma-buf详解](https://otarutech.github.io/categories/Android/dma-buf/)
+- [智能指针](https://otarutech.github.io/categories/Android/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/)
+- [ashmem匿名共享内存](https://otarutech.github.io/2022/01/03/Android-Ashmem/)
+
 ### C++
 
 - [benchmark](https://otarutech.github.io/categories/C-C/benchmark/)
@@ -29,11 +38,3 @@ sticky: 1
 
 ### 自动驾驶
 - [Fast DDS](https://otarutech.github.io/categories/FastDDS/)
-
-### Android系统
-- [Input子系统](https://otarutech.github.io/categories/Android/Input%E5%AD%90%E7%B3%BB%E7%BB%9F/)
-- [ION内存管理](https://otarutech.github.io/categories/Android/ION%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/)
-- [Treble架构中的HIDL](https://otarutech.github.io/categories/Android/HIDL/)
-- [dma-buf详解](https://otarutech.github.io/categories/Android/dma-buf/)
-- [智能指针](https://otarutech.github.io/categories/Android/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/)
-- [ashmem匿名共享内存](https://otarutech.github.io/2022/01/03/Android-Ashmem/)
