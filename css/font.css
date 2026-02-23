@@ -1,0 +1,9 @@
+@font-face{
+    font-family: 'FiraCode';
+    font-display: swap;
+    src: url('../font/FiraCode.ttf') format("truetype");
+}
+
+body {
+    font-family: "Microsoft YaHei", 'FiraCode';
+}

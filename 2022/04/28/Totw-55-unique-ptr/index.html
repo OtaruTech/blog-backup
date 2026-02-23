@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Tip of the Week 55 名字计数与unique_ptr | 我是Android开发者</title><meta name="keywords" content="C++11,C++Tips"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="“尽管我们可能以一千种名字来认识他，但是他于我们所有人而言是同一个人。”——圣雄甘地  通俗来讲，值的“名字”是在任意作用域内保持特定数值的任意值类型变量（不是指针也不是引用）。（对于规范准则而言，如果我们说“名字”，实质上我们谈论的是左值。）因为std::unique_ptr的特定行为的要求，我们需要确保在std::unique_ptr中保存的任意值仅有一个名字。 请务必注意，C++委员会为s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tip of the Week 55 名字计数与unique_ptr">
+<meta property="og:url" content="https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="“尽管我们可能以一千种名字来认识他，但是他于我们所有人而言是同一个人。”——圣雄甘地  通俗来讲，值的“名字”是在任意作用域内保持特定数值的任意值类型变量（不是指针也不是引用）。（对于规范准则而言，如果我们说“名字”，实质上我们谈论的是左值。）因为std::unique_ptr的特定行为的要求，我们需要确保在std::unique_ptr中保存的任意值仅有一个名字。 请务必注意，C++委员会为s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/C++Tips-55.png">
+<meta property="article:published_time" content="2022-04-28T14:52:13.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:43:26.317Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++Tips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/C++Tips-55.png"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Tip of the Week 55 名字计数与unique_ptr',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2026-02-24 00:43:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/C++Tips-55.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Tip of the Week 55 名字计数与unique_ptr</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-28T14:52:13.000Z" title="发表于 2022-04-28 22:52:13">2022-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:43:26.317Z" title="更新于 2026-02-24 00:43:26">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-Tips-of-the-Week/">C++ Tips of the Week</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Tip of the Week 55 名字计数与unique_ptr"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>“尽管我们可能以一千种名字来认识他，但是他于我们所有人而言是同一个人。”——圣雄甘地</p>
+</blockquote>
+<p>通俗来讲，值的“名字”是在任意作用域内保持特定数值的任意值类型变量（不是指针也不是引用）。（对于规范准则而言，如果我们说“名字”，实质上我们谈论的是左值。）因为<code>std::unique_ptr</code>的特定行为的要求，我们需要确保在<code>std::unique_ptr</code>中保存的任意值仅有一个名字。</p>
+<p>请务必注意，C++委员会为<code>std::unique_ptr</code>选择了一个非常恰当的名字。在任何时候，存储在<code>std::unique_ptr</code>中的任何非空指针值都只能在一个<code>std::unique_ptr</code>中出现；标准库以强制执行此操作来设计的。许多编译代码中使用<code>std::unique_ptr</code>的常见问题能够通过学习如何计算<code>std::unique_ptr</code>的数量来解决：一个名字是可以的，但是相同的指针值对应多个名字则不行。</p>
+<p>让我们数一些名字。在每一行，计算在位置（无论是否在作用域内）上包含相同指针的<code>std::unique_ptr</code>并且存在的名字数量。如果你在任何一行发现关于相同指针值的名字多余一个，那是一个错误！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::unique_ptr&lt;Foo&gt; <span class="title">NewFoo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> std::unique_ptr&lt;Foo&gt;(<span class="keyword">new</span> <span class="built_in">Foo</span>(<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AcceptFoo</span><span class="params">(std::unique_ptr&lt;Foo&gt; f)</span> </span>&#123; f-&gt;<span class="built_in">PrintDebugString</span>(); &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Simple</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">AcceptFoo</span>(<span class="built_in">NewFoo</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DoesNotBuild</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::unique_ptr&lt;Foo&gt; g = <span class="built_in">NewFoo</span>();</span><br><span class="line">  <span class="built_in">AcceptFoo</span>(g); <span class="comment">// 不能编译</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SmarterThanTheCompilerButNot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  Foo* j = <span class="keyword">new</span> <span class="built_in">Foo</span>(<span class="number">2</span>);</span><br><span class="line">  <span class="comment">// 可以编译，但是违反规则并且在运行时会重复删除</span></span><br><span class="line">  <span class="function">std::unique_ptr&lt;Foo&gt; <span class="title">k</span><span class="params">(j)</span></span>;</span><br><span class="line">  <span class="function">std::unique_ptr&lt;Foo&gt; <span class="title">l</span><span class="params">(j)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>Simple()</code>中，随<code>NewFoo()</code>分配的唯一指针只有一个可以引用的名字：在<code>AcceptFoo()</code>中的“f”。</p>
+<p>与<code>DoesNotBuild()</code>相比，随<code>NewFoo()</code>分配的唯一指针有两个引用它的名字：<code>DoesNotBuild()</code>中的”g”和<code>AcceptFoo()</code>中的“f”。</p>
+<p>这时一个典型的违反唯一性：在执行中的任何给定点，通过<code>std::unique_ptr</code>（更确切的说，任何仅能够移动的类型）拥有的任何值都只能由单一明显的名字来引用。任何看起来像引用的额外名字的拷贝，都是禁止的，并且不能编译。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scratch.cc: 错误: 调用std::unique_ptr&lt;Foo&gt;被废弃了的构造函数</span><br><span class="line"><span class="built_in">AcceptFoo</span>(g);</span><br></pre></td></tr></table></figure>
+
+<p>即便编译器没有抓到你的问题，<code>std::unique_ptr</code>的运行时行为也会发生。每当你“自已为超过”编译器，然后引入多个<code>std::unique_ptr</code>名字，它可能能够编译，但是你将遇到运行时内存问题。</p>
+<p>现在问题变成了：我们如何移除名字？C++11以<code>std::move()</code>的形式提供了一种解决方案。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EraseTheName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   std::unique_ptr&lt;Foo&gt; h = <span class="built_in">NewFoo</span>();</span><br><span class="line">   <span class="built_in">AcceptFoo</span>(std::<span class="built_in">move</span>(h)); <span class="comment">// 用std::move来修复DoesNotBuild</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用<code>std::move</code>实际上市一种名字消除器：从概念上讲，你可以停止计数关于指针值“h”。现在，这通过distinct-names规则：在<code>NewFoo()</code>分配的唯一指针有单个的名字(”h”)，并且在调用<code>AcceptFoo()</code>中，这里又仅有单个名字(”f”)。通过使用<code>std::move</code>，我们保证直到为它分配了新值，才会再次读取“h”。</p>
+<p>在现代C++中，对于那些不熟悉左值、右值等细节的人而言，名字计数是一种方便的技巧：它能够帮助你识别不必要拷贝的可能性，并且它能够帮助你恰当的使用<code>std::unique_ptr</code>。名字计数以后，如果你在一个地方发现过多的名字，请使用<code>std::move</code>来删除不再需要的名字。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/">https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C-11/">C++11</a><a class="post-meta__tags" href="/tags/C-Tips/">C++Tips</a></div><div class="post_share"><div class="social-share" data-image="/img/C++Tips-55.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/04/28/Totw-112-emplace-push-back/"><img class="prev-cover" src="/img/C++Tips-112.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Tip of the Week 112 emplace与push_back</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/27/Totw-65-emplace/"><img class="next-cover" src="/img/C++Tips-65.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Tip of the Week 65 就地安放</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/16/Totw-1-string-view/" title="Tip of the Week 1 string_view"><img class="cover" src="/img/C++Tips-1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-16</div><div class="title">Tip of the Week 1 string_view</div></div></a></div><div><a href="/2022/03/21/Totw-10-string-split/" title="Tip of the Week 10 分割字符串，不必拘小节"><img class="cover" src="/img/C++Tips-10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="title">Tip of the Week 10 分割字符串，不必拘小节</div></div></a></div><div><a href="/2022/03/28/Totw-11-return-policy/" title="Tip of the Week 11 返回策略"><img class="cover" src="/img/C++Tips-11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-28</div><div class="title">Tip of the Week 11 返回策略</div></div></a></div><div><a href="/2022/04/28/Totw-112-emplace-push-back/" title="Tip of the Week 112 emplace与push_back"><img class="cover" src="/img/C++Tips-112.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-28</div><div class="title">Tip of the Week 112 emplace与push_back</div></div></a></div><div><a href="/2022/05/05/Totw-116-const-ref-pointer/" title="Tip of the Week 116 保留多参数的引用"><img class="cover" src="/img/C++Tips-116.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-05</div><div class="title">Tip of the Week 116 保留多参数的引用</div></div></a></div><div><a href="/2022/05/08/Totw-126-make-unique/" title="Tip of the Week 126 ‘make_unique’是新的‘new’"><img class="cover" src="/img/C++Tips-126.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 126 ‘make_unique’是新的‘new’</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/C++Tips-55.png')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

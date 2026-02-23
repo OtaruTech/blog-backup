@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Tip of the Week 112 emplace与push_back | 我是Android开发者</title><meta name="keywords" content="C++11,C++Tips"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="“我们越少使用我们的力量，它就会越强大。” —— 托马斯 杰克逊  正如你所知（如果不知道，参见TotW 65） 正如你所知道的，C++11引入了一种强大的新方法来讲条目插入到容器中：emplace方法。这些可以让使用任何对象的构建函数在一个容器内原地构建一个对象。这包含移动和拷贝构造函数，因此在你可以使用push或者insert方法时，你可以使用emplace方法代替，而不需要其他修改。 12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tip of the Week 112 emplace与push_back">
+<meta property="og:url" content="https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="“我们越少使用我们的力量，它就会越强大。” —— 托马斯 杰克逊  正如你所知（如果不知道，参见TotW 65） 正如你所知道的，C++11引入了一种强大的新方法来讲条目插入到容器中：emplace方法。这些可以让使用任何对象的构建函数在一个容器内原地构建一个对象。这包含移动和拷贝构造函数，因此在你可以使用push或者insert方法时，你可以使用emplace方法代替，而不需要其他修改。 12">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/C++Tips-112.jpg">
+<meta property="article:published_time" content="2022-04-28T14:55:32.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:43:26.316Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++Tips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/C++Tips-112.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Tip of the Week 112 emplace与push_back',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2026-02-24 00:43:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/C++Tips-112.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Tip of the Week 112 emplace与push_back</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-28T14:55:32.000Z" title="发表于 2022-04-28 22:55:32">2022-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:43:26.316Z" title="更新于 2026-02-24 00:43:26">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-Tips-of-the-Week/">C++ Tips of the Week</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Tip of the Week 112 emplace与push_back"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>“我们越少使用我们的力量，它就会越强大。” —— 托马斯 杰克逊</p>
+</blockquote>
+<p>正如你所知（如果不知道，参见TotW 65）</p>
+<p>正如你所知道的，C++11引入了一种强大的新方法来讲条目插入到容器中：<code>emplace</code>方法。这些可以让使用任何对象的构建函数在一个容器内原地构建一个对象。这包含移动和拷贝构造函数，因此在你可以使用<code>push</code>或者<code>insert</code>方法时，你可以使用<code>emplace</code>方法代替，而不需要其他修改。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;string&gt; my_vec;</span><br><span class="line">my_vec.<span class="built_in">push_back</span>(<span class="string">&quot;foo&quot;</span>);     <span class="comment">// 这是可行的，因此...</span></span><br><span class="line">my_vec.<span class="built_in">emplace_back</span>(<span class="string">&quot;foo&quot;</span>);  <span class="comment">// 这也是可行的，并且有相同的结果</span></span><br><span class="line">std::set&lt;string&gt; my_set;</span><br><span class="line">my_set.<span class="built_in">insert</span>(<span class="string">&quot;foo&quot;</span>);        <span class="comment">// 此处相同：任何调用imsert可以被emplace重写</span></span><br><span class="line">my_set.<span class="built_in">emplace</span>(<span class="string">&quot;foo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这产生一个明显的问题：你应该用哪一个好？我们是否应该放弃<code>push_back()</code>和<code>insert()</code>，并且一直使用<code>emplace</code>方法吗？</p>
+<p>让我通过问另外一个问题来回答这个问题：这两行代码做了什么？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vec1.<span class="built_in">push_back</span>(<span class="number">1</span>&lt;&lt;<span class="number">20</span>);</span><br><span class="line">vec2.<span class="built_in">emplace_back</span>(<span class="number">1</span>&lt;&lt;<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+
+<p>第一行相当简单：它将数字1048576天假到<code>vector</code>的末尾。然而，第二行就不那么清晰了。在不知道<code>vecotr</code>类型的情况下，我们不知道它会调用什么构造函数，因此我们无法正真说出那行代码做了什么。例如，如果vec2是一个<code>std::vector</code>，那么哪行仅仅添加到末尾，就像第一行一样，但是如果vec2是<code>std::vector&lt;std::vector&gt;</code>，那么第二行会构造一个超过百万个元素的vector，在该进程中分配几兆字节的内存。</p>
+<p>因此，如果你有同样的参数时，在<code>push_back</code>和<code>emplace_back</code>之间进行选择，如果你选择<code>push_back</code>，那么你的代码会更具有可读性，因为<code>push_back</code>更确切的表现了你的意图。选择push_back也更加安全：假定你有一个<code>std::vector&lt;std::vector&gt;</code>，并且你想附加一个数据到第一个<code>vector</code>，但是你偶然忘记了下标。如果你写<code>my_vec.push_back(2&lt;&lt;20)</code>，那么你会得到一个编译错误，然后你会快速发现问题。另一方面，如果你编写<code>my_vec.emplace(2&lt;&lt;2)</code>，代码将成功编译，并且知道运行前，你也不会注意到任何问题。</p>
+<p>现在，当涉及隐式转换时，<code>emplace_back()</code>确实比<code>push_back()</code>快一些。例如，在我们要开始的代码中，<code>my_vec.push_back(”foo”)</code>从一个字符串字面量构造一个临时string，然后将string移动进容器中，然而<code>emplace_back(”foo”)</code>则直接在容器中构造string，避免了额外的移动。对于消耗更大的类型，这可能是用<code>emplace_back()</code>替代<code>push_back()</code>的一个原因，尽管存在可读性和安全性上的代价，但是情况可能并非如此。通常性能差异并不那么重要。与往常一样，经验法则是你应该避免对代码进行不够安全和不够清晰的“优化”，除非性能优势大到需要在你的应用程序基准测试中显示出来。</p>
+<p>所以一般来说，如果<code>push_back()</code>和<code>emplace_back()</code>都使用相同的参数，那么你应该优先选择<code>push_back()</code>，对于<code>insert()</code>和<code>emplace()</code>也是如此。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/">https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C-11/">C++11</a><a class="post-meta__tags" href="/tags/C-Tips/">C++Tips</a></div><div class="post_share"><div class="social-share" data-image="/img/C++Tips-112.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/05/Totw-116-const-ref-pointer/"><img class="prev-cover" src="/img/C++Tips-116.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Tip of the Week 116 保留多参数的引用</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/28/Totw-55-unique-ptr/"><img class="next-cover" src="/img/C++Tips-55.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Tip of the Week 55 名字计数与unique_ptr</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/16/Totw-1-string-view/" title="Tip of the Week 1 string_view"><img class="cover" src="/img/C++Tips-1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-16</div><div class="title">Tip of the Week 1 string_view</div></div></a></div><div><a href="/2022/03/21/Totw-10-string-split/" title="Tip of the Week 10 分割字符串，不必拘小节"><img class="cover" src="/img/C++Tips-10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="title">Tip of the Week 10 分割字符串，不必拘小节</div></div></a></div><div><a href="/2022/03/28/Totw-11-return-policy/" title="Tip of the Week 11 返回策略"><img class="cover" src="/img/C++Tips-11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-28</div><div class="title">Tip of the Week 11 返回策略</div></div></a></div><div><a href="/2022/05/05/Totw-116-const-ref-pointer/" title="Tip of the Week 116 保留多参数的引用"><img class="cover" src="/img/C++Tips-116.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-05</div><div class="title">Tip of the Week 116 保留多参数的引用</div></div></a></div><div><a href="/2022/05/08/Totw-126-make-unique/" title="Tip of the Week 126 ‘make_unique’是新的‘new’"><img class="cover" src="/img/C++Tips-126.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 126 ‘make_unique’是新的‘new’</div></div></a></div><div><a href="/2022/05/08/Totw-123-optional-unique-ptr/" title="Tip of the Week 123 absl::optional和std::unique_ptr"><img class="cover" src="/img/C++Tips-123.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 123 absl::optional和std::unique_ptr</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/C++Tips-112.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

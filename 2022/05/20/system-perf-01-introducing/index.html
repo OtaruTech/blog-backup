@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Linux性能分析60秒 | 我是Android开发者</title><meta name="keywords" content="System Performance,性能分析"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文翻译自Netflix技术博客： Linux Performance Analysis in 60,000 Milliseconds | by Netflix Technology Blog | Netflix TechBlog Frist 60 Seconds：Summary在本文中，Netfix的性能工程师团队会介绍在一上来的60秒内，在命令行中使用一套优化的性能调研，使用Linux系统中现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux性能分析60秒">
+<meta property="og:url" content="https://www.otarutech.com/2022/05/20/system-perf-01-introducing/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="本文翻译自Netflix技术博客： Linux Performance Analysis in 60,000 Milliseconds | by Netflix Technology Blog | Netflix TechBlog Frist 60 Seconds：Summary在本文中，Netfix的性能工程师团队会介绍在一上来的60秒内，在命令行中使用一套优化的性能调研，使用Linux系统中现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/system-perf-01.jpg">
+<meta property="article:published_time" content="2022-05-20T15:23:03.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:43:26.334Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="System Performance">
+<meta property="article:tag" content="性能分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/system-perf-01.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/05/20/system-perf-01-introducing/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux性能分析60秒',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:43:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/system-perf-01.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux性能分析60秒</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-20T15:23:03.000Z" title="发表于 2022-05-20 23:23:03">2022-05-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:43:26.334Z" title="更新于 2026-02-24 00:43:26">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">系统性能分析</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">21k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux性能分析60秒"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文翻译自Netflix技术博客：</p>
+<p><a target="_blank" rel="noopener" href="https://netflixtechblog.com/linux-performance-analysis-in-60-000-milliseconds-accc10403c55">Linux Performance Analysis in 60,000 Milliseconds | by Netflix Technology Blog | Netflix TechBlog</a></p>
+<h2 id="Frist-60-Seconds：Summary"><a href="#Frist-60-Seconds：Summary" class="headerlink" title="Frist 60 Seconds：Summary"></a>Frist 60 Seconds：Summary</h2><p>在本文中，Netfix的性能工程师团队会介绍在一上来的60秒内，在命令行中使用一套优化的性能调研，使用Linux系统中现成的工具。在头60内，你可以运行下面的命令来获取到一个High Level的系统资源利用率和正在运行的进程。首先是最容易理解的，查找一些错误信息和性能饱和度，然后才是资源利用率。饱和度是指一个资源已经超出了他本来应该持有的资源数量，可以理解为一个请求队列的长度，或者等待时间的消耗。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">uptime</span><br><span class="line">dmesg | tail</span><br><span class="line">vmstat 1</span><br><span class="line">mpstat -P ALL 1</span><br><span class="line">pidstat 1</span><br><span class="line">iostat -xz 1</span><br><span class="line">free -m</span><br><span class="line">sar -n DEV 1</span><br><span class="line">sar -n TCP,ETCP 1</span><br><span class="line">top</span><br></pre></td></tr></table></figure>
+
+<p>上面有一些工具需要使用到sysstat软件包，在ubuntu系统里面可以使用下面的命令去安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install sysstat</span><br></pre></td></tr></table></figure>
+
+<p>这些命令给出的一些指标会帮助你完成一些<a target="_blank" rel="noopener" href="https://www.brendangregg.com/usemethod.html">USE Method</a>（过度资源使用和错误方法）：定位性能瓶颈的方法。这会涉及到检查所有资源的利用率，饱和度和错误信息（CPU，内存，磁盘等）。还要注意你是何时检查并释放了资源，因为通过释放的过程可以缩小研究目标，并帮助后续的调查。</p>
+<p>以下会对这些命令做一些详细的介绍，也会涉及到一些例子，更多的信息可以查看这些工具的man页面。</p>
+<h3 id="1-uptime"><a href="#1-uptime" class="headerlink" title="1. uptime"></a>1. uptime</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ uptime </span><br><span class="line">23:51:26 up 21:31, 1 user, load average: 30.02, 26.43, 19.02</span><br></pre></td></tr></table></figure>
+
+<p>这是一个快速查看平均负载的方法，并显示了多少个任务（processes）正在等待运行。在Linux系统上，这些包含想要在CPU上运行的进程数和进程被非中断I/O阻塞（通常是磁盘I/O）的进程。这可以给出一个High Level的系统资源的loading，但是没有其他工具的帮助下很难正确的理解系统真正的性能状态。比较值得快速的查看。</p>
+<p>这三个数值分别是指在1分钟，5分钟，15分钟内的指数衰减和移动平均值。通过这三个数值可以了解系统loading的变化。举个例子，当你去检查一个服务器的问题时，如果1分钟的值远小于15分钟的值，那可能你登录的太晚了，问题已经不在现场了。</p>
+<p>在这个例子中，1分钟的平均负载是30%，相比较15分钟的平均负载是19%，数值的变大意味有一些事情发生：可能的CPU需求；<code>vmstat</code>或者<code>mpstat</code>可以来确认。</p>
+<h3 id="2-dmesg-tail"><a href="#2-dmesg-tail" class="headerlink" title="2. dmesg | tail"></a>2. dmesg | tail</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg | tail</span><br><span class="line">[1880957.563150] perl invoked oom-killer: gfp_mask=0x280da, order=0, oom_score_adj=0</span><br><span class="line">[...]</span><br><span class="line">[1880957.563400] Out of memory: Kill process 18694 (perl) score 246 or sacrifice child</span><br><span class="line">[1880957.563408] Killed process 18694 (perl) total-vm:1972392kB, anon-rss:1953348kB, file-rss:0kB</span><br><span class="line">[2320864.954447] TCP: Possible SYN flooding on port 7001. Dropping request.  Check SNMP counters.</span><br></pre></td></tr></table></figure>
+
+<p>上面的命令可以查看到最新的10条内核日志。如果有一些错误的话，很可能会引起一些性能问题。上面的例子包含了一个OOM-Killer和一个TCP请求丢失。</p>
+<p>dmesg信息往往值得检查，别轻易跳过了。</p>
+<h3 id="3-vmstat-1"><a href="#3-vmstat-1" class="headerlink" title="3. vmstat 1"></a>3. vmstat 1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ vmstat 1</span><br><span class="line">procs ---------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b swpd   free   buff  cache   si   so    bi    bo   <span class="keyword">in</span>   cs us sy id wa st</span><br><span class="line">34  0    0 200889792  73708 591828    0    0     0     5    6   10 96  1  3  0  0</span><br><span class="line">32  0    0 200889920  73708 591860    0    0     0   592 13284 4282 98  1  1  0  0</span><br><span class="line">32  0    0 200890112  73708 591860    0    0     0     0 9501 2154 99  1  0  0  0</span><br><span class="line">32  0    0 200889568  73712 591856    0    0     0    48 11900 2459 99  0  0  0  0</span><br><span class="line">32  0    0 200890208  73712 591860    0    0     0     0 15898 4840 98  1  1  0  0</span><br></pre></td></tr></table></figure>
+
+<p>一个快速查看虚拟内存状态的指令，通常Linux的设备上都有这个工具。每一行打印出来关键的一些服务统计信息。</p>
+<p>上面的命令带有一个参数“1”，用来每一秒打印一条统计信息。第一条输出是从开机到现在的平均值。通常会跳过第一条信息。</p>
+<ul>
+<li><strong>r</strong>：在CPU上运行并等待轮换的进程数量。这为确定CPU饱和度提供了比负载平均值更好的信息，因为这其中不包含I/O占用。</li>
+<li><strong>free</strong>：以Kb为单位的空闲内存，数字越大代表空闲内存越多。后面要提到的第7条指令<code>“free -m”</code>可以看到更多空闲内存的信息。</li>
+<li><strong>si,so</strong>：内存/缓存换入和换出。如果值不是0，代表系统内存不足了。</li>
+<li><strong>us,sy,id,wa,st</strong>：所有CPU的拆分时间：用户态时间，系统时间（内核态），空闲时间，等待I/O和一些别别的子系统占用的时间。</li>
+</ul>
+<p>使用CPU的时间（user+system）可以来确定CPU是否很忙。一个恒定的I/O等待率往往是因为磁盘瓶颈；这代表CPU在空闲，因为任务被阻塞在等待磁盘I/O。可以把等待I/O认为是另外一种CPU等待方式。</p>
+<p>I/O的处理需要系统时间。一个高的平均系统时间（20%），可能可以挖掘出更多信息：可能内核正在处理的I/O是低效的。</p>
+<p>上面的例子中，CPU的时间几乎被用户态全部占满，如果有性能问题就是应用程序级别的使用问题。CPU的使用率都超过了90%。这不一定就是一个必要的问题，可以查看r列的饱和度信息。</p>
+<h3 id="4-mpstat-P-ALL-1"><a href="#4-mpstat-P-ALL-1" class="headerlink" title="4. mpstat -P ALL 1"></a>4. mpstat -P ALL 1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ mpstat -P ALL 1</span><br><span class="line">Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015  _x86_64_ (32 CPU)</span><br><span class="line"></span><br><span class="line">07:38:49 PM  CPU   %usr  %nice   %sys %iowait   %irq  %soft  %steal  %guest  %gnice  %idle</span><br><span class="line">07:38:50 PM  all  98.47   0.00   0.75    0.00   0.00   0.00    0.00    0.00    0.00   0.78</span><br><span class="line">07:38:50 PM    0  96.04   0.00   2.97    0.00   0.00   0.00    0.00    0.00    0.00   0.99</span><br><span class="line">07:38:50 PM    1  97.00   0.00   1.00    0.00   0.00   0.00    0.00    0.00    0.00   2.00</span><br><span class="line">07:38:50 PM    2  98.00   0.00   1.00    0.00   0.00   0.00    0.00    0.00    0.00   1.00</span><br><span class="line">07:38:50 PM    3  96.97   0.00   0.00    0.00   0.00   0.00    0.00    0.00    0.00   3.03</span><br></pre></td></tr></table></figure>
+
+<p>这条指令打印出了每一个CPU的使用时间分布，可以用来查看系统的负载均衡问题，单个CPU可以认为是一个线程的占用。</p>
+<h3 id="5-pidstat-1"><a href="#5-pidstat-1" class="headerlink" title="5. pidstat 1"></a>5. pidstat 1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ pidstat 1</span><br><span class="line">Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015    _x86_64_    (32 CPU)</span><br><span class="line"></span><br><span class="line">07:41:02 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">07:41:03 PM     0         9    0.00    0.94    0.00    0.94     1  rcuos/0</span><br><span class="line">07:41:03 PM     0      4214    5.66    5.66    0.00   11.32    15  mesos-slave</span><br><span class="line">07:41:03 PM     0      4354    0.94    0.94    0.00    1.89     8  java</span><br><span class="line">07:41:03 PM     0      6521 1596.23    1.89    0.00 1598.11    27  java</span><br><span class="line">07:41:03 PM     0      6564 1571.70    7.55    0.00 1579.25    28  java</span><br><span class="line">07:41:03 PM 60004     60154    0.94    4.72    0.00    5.66     9  pidstat</span><br><span class="line"></span><br><span class="line">07:41:03 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">07:41:04 PM     0      4214    6.00    2.00    0.00    8.00    15  mesos-slave</span><br><span class="line">07:41:04 PM     0      6521 1590.00    1.00    0.00 1591.00    27  java</span><br><span class="line">07:41:04 PM     0      6564 1573.00   10.00    0.00 1583.00    28  java</span><br><span class="line">07:41:04 PM   108      6718    1.00    0.00    0.00    1.00     0  snmp-pass</span><br><span class="line">07:41:04 PM 60004     60154    1.00    4.00    0.00    5.00     9  pidstat</span><br></pre></td></tr></table></figure>
+
+<p><code>pidstat</code>有点像<code>top</code>的单进程统计，但是打印的是滚动的摘要，而不是整屏幕的刷新。这对于观察一段时间内的场景很有用，还记录了你所看到的，可以很方便的拷贝到别的地方去深入调研。</p>
+<p>上面的示例显示了两个非常耗CPU资源的两个java进程。%CPU列是所有CPU的消耗；1591%表示了这俩jiava进程几乎占满了16个CPU的时间。</p>
+<h3 id="6-iostat-xz-1"><a href="#6-iostat-xz-1" class="headerlink" title="6. iostat -xz 1"></a>6. iostat -xz 1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ iostat -xz 1</span><br><span class="line">Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015  _x86_64_ (32 CPU)</span><br><span class="line"></span><br><span class="line">avg-cpu:  %user   %nice %system %iowait  %steal   %idle</span><br><span class="line">          73.96    0.00    3.73    0.03    0.06   22.21</span><br><span class="line"></span><br><span class="line">Device:   rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util</span><br><span class="line">xvda        0.00     0.23    0.21    0.18     4.52     2.08    34.37     0.00    9.98   13.80    5.42   2.44   0.09</span><br><span class="line">xvdb        0.01     0.00    1.02    8.94   127.97   598.53   145.79     0.00    0.43    1.78    0.28   0.25   0.25</span><br><span class="line">xvdc        0.01     0.00    1.02    8.86   127.79   595.94   146.50     0.00    0.45    1.82    0.30   0.27   0.26</span><br><span class="line">dm-0        0.00     0.00    0.69    2.32    10.47    31.69    28.01     0.01    3.23    0.71    3.98   0.13   0.04</span><br><span class="line">dm-1        0.00     0.00    0.00    0.94     0.01     3.78     8.00     0.33  345.84    0.04  346.81   0.01   0.00</span><br><span class="line">dm-2        0.00     0.00    0.09    0.07     1.35     0.36    22.50     0.00    2.55    0.23    5.62   1.78   0.03</span><br><span class="line">[...]</span><br><span class="line">^C</span><br></pre></td></tr></table></figure>
+
+<p>在统计应用的工作量和结果展示上，这是一个非常不错的工具来了解块设备的运作：</p>
+<ul>
+<li><strong>r/s, w/s, rkB/s, wkB/s</strong>：这些是设备每秒读、写、读取千字节和写入千字节的值。这些指标往往表示了块设备的负载状态。很多性能问题可能是因为过多的负载导致。</li>
+<li><strong>await</strong>：以毫秒为单位的平均I/O时间。这是应用程序等待的时间，包含了排队和被服务的时间。大于预期的平均等待时间可能是设备负载饱和或者问题导致的。</li>
+<li><strong>avgqu-sz</strong>：向设备发出的平均请求数。大于1可能代表块设备已经饱和。</li>
+<li><strong>%util</strong>：设备利用率。数值显示设备每秒工作的时间百分比。通常值大于60%会导致很差的性能，接近100%的话就代表了已经过载了。</li>
+</ul>
+<p>如果存储设备是面向许多后端磁盘的逻辑磁盘设备，那么 100% 利用率可能只是意味着 100% 的时间正在处理某些 I/O，但是，后端磁盘可能远未饱和，并且可能能够处理更多的工作。</p>
+<p>请记住，性能不佳的磁盘 I/O 不一定是应用程序问题。许多技术通常用于异步执行 I/O，这样应用程序就不会直接阻塞和遭受延迟（例如，读取的预读和写入的缓冲）。</p>
+<h3 id="7-free-m"><a href="#7-free-m" class="headerlink" title="7. free -m"></a>7. free -m</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ free -m</span><br><span class="line">             total       used       free     shared    buffers     cached</span><br><span class="line">Mem:        245998      24545     221453         83         59        541</span><br><span class="line">-/+ buffers/cache:      23944     222053</span><br><span class="line">Swap:            0          0          0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>buffers</strong>：用于块设备IO的buffer缓冲区</li>
+<li><strong>cached</strong>：用于文件系统的页缓存</li>
+</ul>
+<p>如果数值解禁0，可能会导致更高的磁盘I/O时间和更差的性能。上面的例子似乎看着还可以。</p>
+<h3 id="8-sar-n-DEV-1"><a href="#8-sar-n-DEV-1" class="headerlink" title="8. sar -n DEV 1"></a>8. sar -n DEV 1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ sar -n DEV 1</span><br><span class="line">Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015     _x86_64_    (32 CPU)</span><br><span class="line"></span><br><span class="line">12:16:48 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil</span><br><span class="line">12:16:49 AM      eth0  18763.00   5032.00  20686.42    478.30      0.00      0.00      0.00      0.00</span><br><span class="line">12:16:49 AM        lo     14.00     14.00      1.36      1.36      0.00      0.00      0.00      0.00</span><br><span class="line">12:16:49 AM   docker0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00</span><br><span class="line"></span><br><span class="line">12:16:49 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil</span><br><span class="line">12:16:50 AM      eth0  19763.00   5101.00  21999.10    482.56      0.00      0.00      0.00      0.00</span><br><span class="line">12:16:50 AM        lo     20.00     20.00      3.25      3.25      0.00      0.00      0.00      0.00</span><br><span class="line">12:16:50 AM   docker0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00</span><br><span class="line">^C</span><br></pre></td></tr></table></figure>
+
+<p>使用此工具检查网络接口吞吐量：rxkB/s 和 txkB/s，作为工作量的衡量标准，并检查是否已达到任何限制。<br>在上面的示例中，eth0 接收达到 22 Mbytes/s，即 176 Mbits/sec（远低于 1 Gbit/sec 的限制）。</p>
+<p>这个版本还有 %ifutil 用于设备利用率（全双工的最大双向），我们也使用 Brendan 的 nicstat 工具来测量。<br>和 nicstat 一样，这很难做到，而且在这个例子中似乎不起作用（0.00）。</p>
+<h3 id="9-sar-n-TCP-ETCP-1"><a href="#9-sar-n-TCP-ETCP-1" class="headerlink" title="9. sar -n TCP,ETCP 1"></a>9. sar -n TCP,ETCP 1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ sar -n TCP,ETCP 1</span><br><span class="line">Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015    _x86_64_    (32 CPU)</span><br><span class="line"></span><br><span class="line">12:17:19 AM  active/s passive/s    iseg/s    oseg/s</span><br><span class="line">12:17:20 AM      1.00      0.00  10233.00  18846.00</span><br><span class="line"></span><br><span class="line">12:17:19 AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s</span><br><span class="line">12:17:20 AM      0.00      0.00      0.00      0.00      0.00</span><br><span class="line"></span><br><span class="line">12:17:20 AM  active/s passive/s    iseg/s    oseg/s</span><br><span class="line">12:17:21 AM      1.00      0.00   8359.00   6039.00</span><br><span class="line"></span><br><span class="line">12:17:20 AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s</span><br><span class="line">12:17:21 AM      0.00      0.00      0.00      0.00      0.00</span><br><span class="line">^C</span><br></pre></td></tr></table></figure>
+
+<p>这是一些关键 TCP 指标的总结视图，这些包括：</p>
+<ul>
+<li><strong>active/s</strong>: 每秒本地发起的TCP连接数（例如，通过connect函数）</li>
+<li><strong>passive/s</strong>: 每秒远程发起的TPC连接数（例如，通过accept函数）</li>
+<li><strong>retrans/s</strong>: 每秒TCP重传次数</li>
+</ul>
+<p>主动和被动计数通常可用于粗略衡量服务器负载：新接受的连接数（被动）和下游连接数（主动）。将主动视为出站，将被动视为入站可能会有所帮助，但这并不完全正确（例如，考虑 localhost 到 localhost 的连接）。</p>
+<p>重传是网络或服务器问题的标志；它可能是一个不可靠的网络（例如，公共互联网），或者可能是由于服务器过载并丢弃数据包。上面的例子每秒只显示一个新的 TCP 连接。</p>
+<h3 id="10-top"><a href="#10-top" class="headerlink" title="10. top"></a>10. top</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ top</span><br><span class="line">top - 00:15:40 up 21:56,  1 user,  load average: 31.09, 29.87, 29.92</span><br><span class="line">Tasks: 871 total,   1 running, 868 sleeping,   0 stopped,   2 zombie</span><br><span class="line">%Cpu(s): 96.8 us,  0.4 sy,  0.0 ni,  2.7 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem:  25190241+total, 24921688 used, 22698073+free,    60448 buffers</span><br><span class="line">KiB Swap:        0 total,        0 used,        0 free.   554208 cached Mem</span><br><span class="line"></span><br><span class="line">   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</span><br><span class="line"> 20248 root      20   0  0.227t 0.012t  18748 S  3090  5.2  29812:58 java</span><br><span class="line">  4213 root      20   0 2722544  64640  44232 S  23.5  0.0 233:35.37 mesos-slave</span><br><span class="line"> 66128 titancl+  20   0   24344   2332   1172 R   1.0  0.0   0:00.07 top</span><br><span class="line">  5235 root      20   0 38.227g 547004  49996 S   0.7  0.2   2:02.74 java</span><br><span class="line">  4299 root      20   0 20.015g 2.682g  16836 S   0.3  1.1  33:14.42 java</span><br><span class="line">     1 root      20   0   33620   2920   1496 S   0.0  0.0   0:03.82 init</span><br><span class="line">     2 root      20   0       0      0      0 S   0.0  0.0   0:00.02 kthreadd</span><br><span class="line">     3 root      20   0       0      0      0 S   0.0  0.0   0:05.35 ksoftirqd/0</span><br><span class="line">     5 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H</span><br><span class="line">     6 root      20   0       0      0      0 S   0.0  0.0   0:06.94 kworker/u256:0</span><br><span class="line">     8 root      20   0       0      0      0 S   0.0  0.0   2:38.05 rcu_sched</span><br></pre></td></tr></table></figure>
+
+<p>top 命令包括我们之前检查的许多指标。运行它可以很方便地查看是否有任何东西与之前的命令有很大不同，这表明负载是可变的。</p>
+<p>top 的一个缺点是比较难看出来一段时间的变化，这在提供滚动输出的 vmstat 和 pidstat 等工具中可能更清楚。如果您没有足够快地暂停输出（Ctrl-S 暂停，Ctrl-Q 继续）并且屏幕清除，则间歇性问题的证据也可能丢失。</p>
+<p>夜已深，睡觉^_^!</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/05/20/system-perf-01-introducing/">https://www.otarutech.com/2022/05/20/system-perf-01-introducing/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/System-Performance/">System Performance</a><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">性能分析</a></div><div class="post_share"><div class="social-share" data-image="/img/system-perf-01.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/12/11/Android-Emulator-Dev/"><img class="prev-cover" src="/img/banner.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">搭建Android系统模拟器开发环境</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/13/benchmark-03/"><img class="next-cover" src="/img/benchmark03.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">C++性能测试工具：google benchmark 进阶</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img class="cover" src="/img/where-is-linux-memory.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-17</div><div class="title">我的内存呢？Linux MemAvailable 如何计算</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Frist-60-Seconds%EF%BC%9ASummary"><span class="toc-number">1.</span> <span class="toc-text">Frist 60 Seconds：Summary</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-uptime"><span class="toc-number">1.1.</span> <span class="toc-text">1. uptime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-dmesg-tail"><span class="toc-number">1.2.</span> <span class="toc-text">2. dmesg | tail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-vmstat-1"><span class="toc-number">1.3.</span> <span class="toc-text">3. vmstat 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-mpstat-P-ALL-1"><span class="toc-number">1.4.</span> <span class="toc-text">4. mpstat -P ALL 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-pidstat-1"><span class="toc-number">1.5.</span> <span class="toc-text">5. pidstat 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-iostat-xz-1"><span class="toc-number">1.6.</span> <span class="toc-text">6. iostat -xz 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-free-m"><span class="toc-number">1.7.</span> <span class="toc-text">7. free -m</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-sar-n-DEV-1"><span class="toc-number">1.8.</span> <span class="toc-text">8. sar -n DEV 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-sar-n-TCP-ETCP-1"><span class="toc-number">1.9.</span> <span class="toc-text">9. sar -n TCP,ETCP 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-top"><span class="toc-number">1.10.</span> <span class="toc-text">10. top</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/system-perf-01.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
