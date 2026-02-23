@@ -21,19 +21,19 @@
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/04/23/fastdds-01-introduce-install/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/04/25/fastdds-02-getting-started/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
     <loc>https://www.otarutech.com/2022/03/14/c-11-thread/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/14/c-11-time-chrono/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/23/fastdds-01-introduce-install/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/25/fastdds-02-getting-started/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
@@ -65,6 +65,22 @@
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
+    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/27/Totw-65-emplace/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/03/30/Totw-77-temp-move-copy/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
     <loc>https://www.otarutech.com/2022/04/25/Totw-88-initialize/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
@@ -89,11 +105,11 @@
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/03/28/Totw-11-return-policy/</loc>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
+    <loc>https://www.otarutech.com/2022/03/28/Totw-11-return-policy/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
@@ -109,27 +125,11 @@
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/03/28/Totw-24-copies-abbrv/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
     <loc>https://www.otarutech.com/2022/03/21/Totw-3-StrCat/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/04/27/Totw-65-emplace/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/03/30/Totw-77-temp-move-copy/</loc>
+    <loc>https://www.otarutech.com/2022/03/28/Totw-24-copies-abbrv/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
@@ -141,15 +141,19 @@
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
+    <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
+    <lastmod>2026-02-23</lastmod>
+  </url>
+  <url>
     <loc>https://www.otarutech.com/2019/12/16/Android-ION-2-sample/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2021/02/16/Android-ION-3-DMA-BUF/</loc>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-1-Overview/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-1-Overview/</loc>
+    <loc>https://www.otarutech.com/2021/02/16/Android-ION-3-DMA-BUF/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
@@ -190,10 +194,6 @@
   </url>
   <url>
     <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-6-FMQ/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
     <lastmod>2026-02-23</lastmod>
   </url>
   <url>
