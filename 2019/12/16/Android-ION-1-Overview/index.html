@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Android ION 内存管理 | 我是Android开发者</title><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ION的设计初衷Android为了更好的针对移动设备内存的管理，设计出了ION内存管理机制，主要是为了解决以下几个问题：  预留大块连续内存，比如camera，display，GPU等模块 避免内存随便花 用户控件和硬件之间实现”零拷贝”(zero-copy)的内存共享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ION 内存管理">
+<meta property="og:url" content="https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="ION的设计初衷Android为了更好的针对移动设备内存的管理，设计出了ION内存管理机制，主要是为了解决以下几个问题：  预留大块连续内存，比如camera，display，GPU等模块 避免内存随便花 用户控件和硬件之间实现”零拷贝”(zero-copy)的内存共享">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/android-ion.png">
+<meta property="article:published_time" content="2019-12-16T03:14:25.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.190Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/android-ion.png"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android ION 内存管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/android-ion.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android ION 内存管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-12-16T03:14:25.000Z" title="发表于 2019-12-16 11:14:25">2019-12-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.190Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/ION%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">ION内存管理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">21k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android ION 内存管理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h5 id="ION的设计初衷"><a href="#ION的设计初衷" class="headerlink" title="ION的设计初衷"></a><strong>ION的设计初衷</strong></h5><p>Android为了更好的针对移动设备内存的管理，设计出了ION内存管理机制，主要是为了解决以下几个问题：</p>
+<ul>
+<li>预留大块连续内存，比如camera，display，GPU等模块</li>
+<li>避免内存随便花</li>
+<li>用户控件和硬件之间实现”零拷贝”(zero-copy)的内存共享<span id="more"></span>
+做Android系统的，特别是跟Display，camera模块相关的</li>
+</ul>
+<p>ION的官方介绍和历史由来查看下面的介绍：</p>
+<p><a target="_blank" rel="noopener" href="https://lwn.net/Articles/480055/">https://lwn.net/Articles/480055/</a></p>
+<h5 id="ION的实现"><a href="#ION的实现" class="headerlink" title="ION的实现"></a><strong>ION的实现</strong></h5><p>Android系统的ION实现依赖于不同的<code>CPU/GPU</code>硬件，Android提供了ION的框架供CPU厂商(NXP, Qualcomm, MTK, 海思等)在自己的<code>BSP</code>里面实现<code>ION</code>机制。</p>
+<p>默认的ION驱动会提供以下三种不同的<code>ION heaps</code>实现：</p>
+<ul>
+<li><strong>ION_HEAP_TYPE_SYSTEM</strong>: memory allocated via vmalloc_user()</li>
+<li><strong>ION_HEAP_TYPE_SYSTEM_CONFIG</strong>: memory allocated via kzalloc</li>
+<li><strong>ION_HEAP_TYPE_CARVEOUT</strong>: carveout memory is physically contiguous and set aside at boot</li>
+</ul>
+<p>CPU厂商会根据自己CPU的特性实现更多的<code>ION heaps</code>，比如<code>NVIDIA</code>提交了一种<code>ION_HEAP_TYPE_IOMMU</code>的heap。</p>
+<p>不管哪一种<code>ION heaps</code>实现，都必须实现如下核心接口</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ion_heap_ops</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> (*allocate)(struct ion_heap *heap,</span><br><span class="line">			struct ion_buffer *buffer, <span class="keyword">unsigned</span> <span class="keyword">long</span> len,</span><br><span class="line">			<span class="keyword">unsigned</span> <span class="keyword">long</span> align, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags);</span><br><span class="line">	<span class="keyword">void</span> (*<span class="built_in">free</span>)(struct ion_buffer *buffer);</span><br><span class="line">	<span class="keyword">int</span> (*phys)(struct ion_heap *heap, struct ion_buffer *buffer,</span><br><span class="line">		    <span class="keyword">ion_phys_addr_t</span> *addr, <span class="keyword">size_t</span> *len);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sg_table</span> * (*<span class="title">map_dma</span>)(<span class="keyword">struct</span> <span class="title">ion_heap</span> *<span class="title">heap</span>,</span></span><br><span class="line"><span class="class">				     <span class="keyword">struct</span> <span class="title">ion_buffer</span> *<span class="title">buffer</span>);</span></span><br><span class="line">	<span class="keyword">void</span> (*unmap_dma)(struct ion_heap *heap, struct ion_buffer *buffer);</span><br><span class="line">	<span class="keyword">void</span> * (*map_kernel)(struct ion_heap *heap, struct ion_buffer *buffer);</span><br><span class="line">	<span class="keyword">void</span> (*unmap_kernel)(struct ion_heap *heap, struct ion_buffer *buffer);</span><br><span class="line">	<span class="keyword">int</span> (*map_user)(struct ion_heap *mapper, struct ion_buffer *buffer,</span><br><span class="line">			struct vm_area_struct *vma);</span><br><span class="line">	<span class="keyword">int</span> (*shrink)(struct ion_heap *heap, <span class="keyword">gfp_t</span> gfp_mask, <span class="keyword">int</span> nr_to_scan);</span><br><span class="line">	<span class="keyword">void</span> (*unmap_user) (struct ion_heap *mapper, struct ion_buffer *buffer);</span><br><span class="line">	<span class="keyword">int</span> (*print_debug)(struct ion_heap *heap, struct seq_file *s,</span><br><span class="line">			   <span class="keyword">const</span> struct list_head *mem_map);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>简单概括一下</p>
+<ul>
+<li><code>allocate()</code>和<code>free()</code>分别用来从heap中<strong>分配</strong>或者<strong>释放</strong>一个ion_buffer对象</li>
+<li>连续的物理内存，<code>phys()</code>用来得到<code>ion_buffer</code>对象的<strong>物理内存</strong>地址和<strong>大小</strong></li>
+<li><code>map_kernel()</code>和<code>unmap_kernel()</code>分别用来把物理内存映射到内核虚拟地址空间</li>
+<li><code>map_user()</code>用来把物理内存映射到用户空间，当用户空间的文件描述符被释放的时候会自动取消映射，所以没有提供类似于<code>unmap_user()</code>的函数</li>
+</ul>
+<p>用户空间进程使用ION的情形</p>
+<p><img src="https://s2.ax1x.com/2020/03/10/8CTnOS.png"></p>
+<h5 id="主要数据结构"><a href="#主要数据结构" class="headerlink" title="主要数据结构"></a><strong>主要数据结构</strong></h5><p>在整个Android操作系统中，可以发现，比较好的框架，先去了解数据结构，就能猜到是如何实现的整个架构。</p>
+<p><strong>ion_device</strong></p>
+<p><code>ion_device</code>是ION驱动的最基础的一个对象，用来描述一个ion设备，其实在一个Android操作系统中，一般只有一个实例存在，用来统一管理ION Heaps，由CPU厂商自己的代码来创建。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ion_device</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">miscdevice</span> <span class="title">dev</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rb_root</span> <span class="title">buffers</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> <span class="title">buffer_lock</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rw_semaphore</span> <span class="title">lock</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">plist_head</span> <span class="title">heaps</span>;</span></span><br><span class="line">	<span class="keyword">long</span> (*custom_ioctl)(struct ion_client *client, <span class="keyword">unsigned</span> <span class="keyword">int</span> cmd,</span><br><span class="line">			     <span class="keyword">unsigned</span> <span class="keyword">long</span> arg);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rb_root</span> <span class="title">clients</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">dentry</span> *<span class="title">debug_root</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">dentry</span> *<span class="title">heaps_debug_root</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">dentry</span> *<span class="title">clients_debug_root</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">semaphore</span> <span class="title">vm_sem</span>;</span></span><br><span class="line">	<span class="keyword">atomic_t</span> page_idx;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">vm_struct</span> *<span class="title">reserved_vm_area</span>;</span></span><br><span class="line">	<span class="keyword">pte_t</span> **pte;</span><br><span class="line">	...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>struct ion_device</code>是ION的核心结构体，但是在用户空间是不可见的，是由CPU厂商的代码通过<code>ion_device_create()</code>函数分配、初始化。</p>
+<ul>
+<li><strong>dev成员</strong>，是一个<code>struct miscdevice</code>类型的杂项字符设备，用来连同内核和用户空间，open/ioctl</li>
+<li><strong>heaps成员</strong>，用来描述所有的<code>struct ion_heap</code>实例</li>
+<li><strong>clients成员</strong>，用来管理所有<code>struct ion_client</code></li>
+</ul>
+<p><strong>ion_client</strong></p>
+<p><code>struct ion_client</code>是由<code>ion_client_create()</code>创建，是通过<code>struct ion_device</code>来创建的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ion_client</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rb_node</span> <span class="title">node</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_device</span> *<span class="title">dev</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rb_root</span> <span class="title">handles</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">idr</span> <span class="title">idr</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> <span class="title">lock</span>;</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">	<span class="keyword">char</span> *display_name;</span><br><span class="line">	<span class="keyword">int</span> display_serial;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> *<span class="title">task</span>;</span></span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">dentry</span> *<span class="title">debug_root</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>node成员</strong>，用于将<code>struct ion_client</code>实例加入到<code>struct ion_device</code>中<code>ion_device::clients</code></li>
+<li><strong>device成员</strong>，指向设备的<code>ion_device</code></li>
+<li><strong>handles成员</strong>，是一个红黑树的根，用来管理它所拥有的handle，即<code>struct ion_handle</code>实例。一个<code>struct ion_handle</code>实例代表一个buffer。<code>ion_buffer</code>是从<code>struct ion_heap</code>中分配的。</li>
+</ul>
+<p><strong>ion_heap</strong></p>
+<p><code>struct ion_heap</code>表示ION中的heap，被ion_device中的<code>ion_device::heaps</code>所管理</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ion_heap</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">plist_node</span> <span class="title">node</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_device</span> *<span class="title">dev</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">ion_heap_type</span> <span class="title">type</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_heap_ops</span> *<span class="title">ops</span>;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> flags;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *name;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">shrinker</span> <span class="title">shrinker</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">free_list</span>;</span></span><br><span class="line">	<span class="keyword">size_t</span> free_list_size;</span><br><span class="line">	<span class="keyword">spinlock_t</span> free_lock;</span><br><span class="line">	<span class="keyword">wait_queue_head_t</span> waitqueue;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> *<span class="title">task</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> (*debug_show)(struct ion_heap *heap, struct seq_file *, <span class="keyword">void</span> *);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ion_handle</strong></p>
+<p><code>struct ion_handle</code>其实就是buffer，用户永健用它来表示自己的buffer，通过<code>ion_handle_create()</code>函数分配获得实例</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ion_handle</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">kref</span> <span class="title">ref</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_client</span> *<span class="title">client</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_buffer</span> *<span class="title">buffer</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rb_node</span> <span class="title">node</span>;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> kmap_cnt;</span><br><span class="line">	<span class="keyword">int</span> id;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>ref成员</strong>，是<code>struct kref</code>结构体类型，在kernel中被广泛的用来表示引用计数，用来记录handle被引用的次数，当引用计数为0时自动销毁。</li>
+<li><strong>client成员</strong>，指向这个handle所属的client</li>
+<li><strong>buffer成员</strong>，指向真正的buffer</li>
+</ul>
+<p><strong>ion_buffer</strong></p>
+<p>这个结构体很重要，通过ION分配的内存就是通过它表示的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ion_buffer</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">kref</span> <span class="title">ref</span>;</span></span><br><span class="line">	...</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_device</span> *<span class="title">dev</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ion_heap</span> *<span class="title">heap</span>;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> flags;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> private_flags;</span><br><span class="line">	<span class="keyword">size_t</span> size;</span><br><span class="line">	<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">		<span class="keyword">void</span> *priv_virt;</span><br><span class="line">		<span class="keyword">ion_phys_addr_t</span> priv_phys;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> <span class="title">lock</span>;</span></span><br><span class="line">	<span class="keyword">int</span> kmap_cnt;</span><br><span class="line">	<span class="keyword">void</span> *vaddr;</span><br><span class="line">	<span class="keyword">int</span> dmap_cnt;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sg_table</span> *<span class="title">sg_table</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">page</span> **<span class="title">pages</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">vmas</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">iovas</span>;</span></span><br><span class="line">	...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>ref成员</strong>，是<code>struct kref</code>结构体实例，维护了本 <code>ion_buffer</code> 的引用计数。当引用计数为 0 时会释放该 buffer，即<code>struct ion_heap_ops::free </code>会被调用。分配用 <code>ION_IOC_ALLOC</code> 型 ioctl 系统调用，相应的释放用 <code>ION_IOC_FREE</code> 型 ioctl 系统调用。</li>
+<li><strong>size 成员</strong>，当然是本 buffer 所表示的空间的大小，用字节表示。</li>
+<li><strong>priv_virt 成员</strong>，是所分配内存的虚拟地址啦，它常与 <code>struct sg_table</code>，或者封装它的结构，有关。它不是我们在内核中读写时所需的内核虚拟地址啦，内核虚拟地址使用 vaddr 成员来表示的。一般而言，物理内存不连续的，使用本字段；否则使用下面的 priv_phys 字段，如 <code>struct ion_heap_ops contig_heap_ops</code>。</li>
+<li><strong>priv_phys 成员</strong>，表示所分配的内存的物理地址。它适用于分配的物理内存是连续的 ion heap。这种连续的物理内存：在将其映射到用户空间时，即获取用户空间虚拟地址，可以使用 <code>remap_pfn_range()</code> [memory.c] 这个方便的接口；在将其映射到内核空间时，即获取内核虚拟地址，可以使用 <code>vmap()</code> [vmalloc.c] 这个方便的接口。例子详见 <code>struct ion_heap_ops contig_heap_ops [exynos_ion.c]</code>。priv_virt 成员和 priv_phys 成员组成了一个联合体，其实都表示地址，只不过不同的场景下具体用的不一样而已。</li>
+<li><strong>kmap_cnt 成员</strong>，记录本 buffer 被映射到内核空间的次数。</li>
+<li><strong>vaddr 成员</strong>，是本 buffer 对应的内核虚拟地址。当 kmap_cnt 不为 0 时有效。可以通过 <code>ion_map_kernel()</code> [ion.c] 来获取本 buffer 对应的内核虚拟地址。<code>ion_map_kernel() </code>[ion.c] 实际上调用的是相应 <code>struct ion_heap_ops::map_kernel</code> 回调函数获取相应的虚拟地址的。</li>
+<li><strong>dmap_cnt 成员</strong>，记录本 buffer 被 mapped for DMA 的次数。</li>
+<li><strong>sg_table 成员</strong>，是 <code>struct sg_table</code> 结构体类型的指针。本字段与 DMA 操作有关，而且仅仅在 dmap_cnt 成员变量不为 0 时是有效的。可以通过 <code>ion_buffer_create()</code> [ion.c] 来初始化本成员变量，该函数实际上是调用相应 ion_heap 所属的 <code>struct ion_heap_ops::map_dma</code> 回调函数获取本字段的值的。</li>
+<li><strong>dirty 成员</strong>，表示 bitmask。即以位图表示本 buffer 的哪一个 page 是 dirty 的，即不能直接用于 DMA。dirty 表示 DMA 的不一致性，即 CPU 缓存中的内容与内存中的实际内容不一样。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2020/03/10/8CHBxx.png"></p>
+<p>用一张图来展示这些数据结构之间的基本关系。后面一起来看看如何在用户空间和内核空间来使用ION 共享内存机制。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/">https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/android-ion.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/12/16/Android-ION-2-sample/"><img class="prev-cover" src="/img/android-ion.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android ION内存管理(2) -- 共享内存使用</div></div></a></div><div class="next-post pull-right"><a href="/2019/12/15/Android-HIDL-Study-6-FMQ/"><img class="next-cover" src="/img/android-hidl.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android HIDL学习（6）---Fast Message Queue</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#ION%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%88%9D%E8%A1%B7"><span class="toc-number">1.</span> <span class="toc-text">ION的设计初衷</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ION%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">ION的实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">主要数据结构</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/android-ion.png')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>搭建Android系统模拟器开发环境 | 我是Android开发者</title><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="自从2022年1月份辞去了Android系统的工作从事自动驾驶行业以来, 已经接近1年了, 在这一年间基本没接触过Android系统的源代码了, 但是Android的设计思想还是在的, 特别是在复杂的自动驾驶系统里面, 很多好的设计和架构都是如出一辙, 所以在好学心的驱使下, 还是打算把Android的aosp源代码给下载下来研究研究, 毕竟Android也是在不停演进, 站在巨人的肩膀上也可以有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建Android系统模拟器开发环境">
+<meta property="og:url" content="https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="自从2022年1月份辞去了Android系统的工作从事自动驾驶行业以来, 已经接近1年了, 在这一年间基本没接触过Android系统的源代码了, 但是Android的设计思想还是在的, 特别是在复杂的自动驾驶系统里面, 很多好的设计和架构都是如出一辙, 所以在好学心的驱使下, 还是打算把Android的aosp源代码给下载下来研究研究, 毕竟Android也是在不停演进, 站在巨人的肩膀上也可以有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/banner.jpg">
+<meta property="article:published_time" content="2022-12-11T03:59:57.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.183Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/banner.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '搭建Android系统模拟器开发环境',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/banner.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">搭建Android系统模拟器开发环境</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.183Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="搭建Android系统模拟器开发环境"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>自从2022年1月份辞去了Android系统的工作从事自动驾驶行业以来, 已经接近1年了, 在这一年间基本没接触过Android系统的源代码了, 但是Android的设计思想还是在的, 特别是在复杂的自动驾驶系统里面, 很多好的设计和架构都是如出一辙, 所以在好学心的驱使下, 还是打算把Android的aosp源代码给下载下来研究研究, 毕竟Android也是在不停演进, 站在巨人的肩膀上也可以有更多的视野</p>
+<p>但是有个问题, 光看源代码可能远远不能满足我的需求, 但是手头上已经没有Android的开发设备了(都换成了Apple设备), 于是就开始倒腾模拟器了, 毕竟模拟器环境搭建好之后开发效率还是挺高的, 话不多说行动起来</p>
+<p>Android源代码是通过repo管理的, 一个repo仓库管理了N多了git仓, 首先是环境搭建, 我这边是基于一台联想工作站, 12代i7给Android预留了500G硬盘, 32G内存, 安装的ubuntu 1804系统</p>
+<h2 id="源代码环境搭建"><a href="#源代码环境搭建" class="headerlink" title="源代码环境搭建"></a>源代码环境搭建</h2><h3 id="代码管理工具"><a href="#代码管理工具" class="headerlink" title="代码管理工具"></a>代码管理工具</h3><p>可以参考这个链接来下载repo:</p>
+<p><a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/download">https://source.android.com/docs/setup/download</a></p>
+<p>但是我们下载Android12的代码需要用到一个<code>--partial-clone</code> 的参数, 使用<code>apt install</code>可能会有版本兼容问题, 建议使用下面命令来下载<code>repo</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/bin</span><br><span class="line">curl -o ~/bin/repo https://storage.googleapis.com/git-repo-downloads/repo</span><br><span class="line">chmod a+x ~/bin/repo</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:~/bin/</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译依赖库和工具"><a href="#编译依赖库和工具" class="headerlink" title="编译依赖库和工具"></a>编译依赖库和工具</h3><p>编译AOSP的源代码需要依赖一堆库和工具, 可以参考下面链接:</p>
+<p><a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/start/initializing">https://source.android.com/docs/setup/start/initializing</a></p>
+<p>我这里使用ubuntu 18.04</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 libncurses5 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig</span><br></pre></td></tr></table></figure>
+
+<p>Android的编译命令和一些入门的命令工具可以参考下面的链接:</p>
+<p><a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/build/building">https://source.android.com/docs/setup/build/building</a></p>
+<h3 id="下载-编译-运行"><a href="#下载-编译-运行" class="headerlink" title="下载/编译/运行"></a>下载/编译/运行</h3><p>这里我尝试了官方给的一个例子里面的版本, 是Android12的分支:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ANDROID_BRANCH=<span class="string">&quot;android12L-release&quot;</span></span><br><span class="line"></span><br><span class="line">REPO_URL=<span class="string">&quot;https://android.googlesource.com/platform/manifest&quot;</span></span><br><span class="line"></span><br><span class="line">mkdir <span class="variable">$ANDROID_BRANCH</span> &amp;&amp; <span class="built_in">cd</span> <span class="variable">$ANDROID_BRANCH</span> &amp;&amp; repo init -u <span class="variable">$REPO_URL</span> -b</span><br><span class="line"><span class="variable">$ANDROID_BRANCH</span> --partial-clone &amp;&amp;  repo sync -c -j8</span><br></pre></td></tr></table></figure>
+
+<p>这里下载代码需要很长的时间, 大概会占用160G左右的空间</p>
+<p>编译AVD(Android Virtual Device)镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. build/envsetup.sh &amp;&amp; lunch sdk_car_x86_64-userdebug &amp;&amp; m -j32</span><br></pre></td></tr></table></figure>
+
+<p>我们编译的是sdk_car_x86_64-userdebug</p>
+<ol>
+<li>首先这是一个for car的版本, 会包含一些车机相关的元素, 后面有机会可以研究一下, 以前也没弄过Android的车机, 都聚焦在Android手持设备上</li>
+<li>这是一个x86_64的版本, 为了一些性能考虑吧, 因为Android的模拟器是基于qemu的, 而且我的开发环境本来就是x86_64的系统, 如果用arm的话性能会差点, 所以用x86_64</li>
+<li>userdebug的版本, 其实自己开发使用也可以用eng版本可能更方便点, release版本的话可能会有些开发限制, 当然了我们可以自己去编译</li>
+</ol>
+<p>OK, 经过漫长的编译, 最终可以通过执行<code>emulator</code> 命令来启动模拟器:</p>
+<img src="/2022/12/11/Android-Emulator-Dev/android-0.png" class="" title="android-0">
+
+<p>这张图其实是从官网下载下来的, 因为我运行的时候是失败了, 报了一些qt的错误, 也没有去折腾, 后来索性不去看界面了, 使用下面的命令来启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emulator -no-skin -no-audio -no-window &amp;</span><br></pre></td></tr></table></figure>
+
+<img src="/2022/12/11/Android-Emulator-Dev/android-1.png" class="" title="android-1">
+
+<p>可以通过<code>adb device</code>查看当前设备, <code>adb shell</code>进入设备的控制台进行调试了, 至于界面的话, 可以采用<code>vysor</code>工具来查看, 非常简单, 去百度或者google就行了</p>
+<p>OK, 至此我们的AOSP源码开发环境就搭建好了, 可以看代码, 改代码, 运行, 测试代码了</p>
+<p>但是还缺了点什么呢? 作为一个Linux爱好者, 只是使用别人编译好的Linux kernel来运行怎么行能, 我们要来编译自己的kernel ^_^</p>
+<h2 id="运行自己的Kernel版本"><a href="#运行自己的Kernel版本" class="headerlink" title="运行自己的Kernel版本"></a>运行自己的Kernel版本</h2><p>我们先来看一下预编译的kernel版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">emulator_car_x86_64:/ $ cat /proc/version</span><br><span class="line">Linux version 5.10.157-android12-9-01103-g6e59624319a9 (build-user@build-host) (Android (7284624, based on r416183b) clang version 12.0.5 (https://android.googlesource.com/toolchain/llvm-project c935d99d7cf2016289302412d708641d52d2f7ee), LLD 12.0.5 (/buildbot/src/android/llvm-toolchain/out/llvm-project/lld c935d99d7cf2016289302412d708641d52d2f7ee)) <span class="comment">#1 SMP PREEMPT Sat Dec 10 17:40:05 UTC 2022</span></span><br><span class="line">emulator_car_x86_64:/ $</span><br></pre></td></tr></table></figure>
+
+<p>Android 12L的这个版本搭配的是Linux 5.10的版本, 我们可以来找到相近的Google Linux Kernel分支:</p>
+<p><a target="_blank" rel="noopener" href="https://android.googlesource.com/kernel/common/+refs">https://android.googlesource.com/kernel/common/+refs</a></p>
+<p>我这里使用<code>android12-5.10-lts</code>版本, long term support版本</p>
+<img src="/2022/12/11/Android-Emulator-Dev/android-2.png" class="" title="android-1">
+
+<p>使用下面命令来下载编译:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir goldfish-kernel-510</span><br><span class="line"><span class="built_in">cd</span> goldfish-kernel-510</span><br><span class="line">repo init -u https://android.googlesource.com/kernel/manifest -b</span><br><span class="line">common-android11-5.10-lts</span><br><span class="line">repo sync</span><br><span class="line">BUILD_CONFIG=common/build.config.gki.x86_64 build/build.sh</span><br><span class="line">BUILD_CONFIG=common-modules/virtual-device/build.config.virtual_device.x86_64 build/build.sh</span><br><span class="line">ls out/android12-5.10/dist/</span><br></pre></td></tr></table></figure>
+
+<p>可以看到编译出来的Linux kernel镜像和kernel 模块, 后面都会用到</p>
+<h3 id="运行自己编译的Kernel"><a href="#运行自己编译的Kernel" class="headerlink" title="运行自己编译的Kernel"></a>运行自己编译的Kernel</h3><p>我们先跑到下载的kernel源代码中去, 查看一下代码的git sha</p>
+<img src="/2022/12/11/Android-Emulator-Dev/android-3.png" class="" title="android-3">
+
+<p>因为我的代码已经提交过一笔进去了, 所以是上面的6e59624, 如果原始代码可能是下面的f3226d的sha值, 我们记住这个值, 后面会来验证</p>
+<p>我们来替换自己的kernel镜像, 找到Android源代码下的<code>x86_64-kernel.mk</code>, 并把原来的5.10版本换成5.10-lts</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">TARGET_KERNEL_USE ?= 5.10-lts</span><br><span class="line"></span><br><span class="line">KERNEL_MODULES_PATH := kernel/prebuilts/common-modules/virtual-device/$(TARGET_KERNEL_USE)/x86-64</span><br><span class="line"></span><br><span class="line">KERNEL_MODULES_EXCLUDE := \</span><br><span class="line">    $(KERNEL_MODULES_PATH)/virt_wifi.ko \</span><br><span class="line">    $(KERNEL_MODULES_PATH)/virt_wifi_sim.ko</span><br><span class="line"></span><br><span class="line">BOARD_VENDOR_RAMDISK_KERNEL_MODULES += \</span><br><span class="line">    $(filter-out $(KERNEL_MODULES_EXCLUDE), $(wildcard $(KERNEL_MODULES_PATH)/*.ko))</span><br><span class="line"></span><br><span class="line">EMULATOR_KERNEL_FILE := kernel/prebuilts/$(TARGET_KERNEL_USE)/x86_64/kernel-$(TARGET_KERNEL_USE)</span><br></pre></td></tr></table></figure>
+
+<p>然后创建<code>kernel/prebuilts/5.10-lts</code>并且替换自己的镜像</p>
+<img src="/2022/12/11/Android-Emulator-Dev/android-4.png" class="" title="android-4">
+
+<p>然后是替换kernel modules, 同样的创建<code>kernel/prebuilts/common-modules/virtual-device/5.10-lts</code>目录, 对应的替换底下的ko文件</p>
+<img src="/2022/12/11/Android-Emulator-Dev/android-5.png" class="" title="android-5">
+
+<p>接下来重新编译avd镜像, 并运行虚拟机:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make -j8</span><br><span class="line">emulator -no-skin -no-audio -no-window &amp;</span><br></pre></td></tr></table></figure>
+
+<p>我们再次查看kernel版本:</p>
+<img src="/2022/12/11/Android-Emulator-Dev/android-6.png" class="" title="android-6">
+
+<p>现在已经变成我们自己的版本了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此我们可以使用Android模拟器来编译调试aosp和goolge主线kernel的代码了, 后面会带来更多分享</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/">https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/banner.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/17/where-is-linux-memory/"><img class="prev-cover" src="/img/where-is-linux-memory.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">我的内存呢？Linux MemAvailable 如何计算</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/20/system-perf-01-introducing/"><img class="next-cover" src="/img/system-perf-01.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux性能分析60秒</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">源代码环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number">1.1.</span> <span class="toc-text">代码管理工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E4%BE%9D%E8%B5%96%E5%BA%93%E5%92%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.</span> <span class="toc-text">编译依赖库和工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-%E7%BC%96%E8%AF%91-%E8%BF%90%E8%A1%8C"><span class="toc-number">1.3.</span> <span class="toc-text">下载&#x2F;编译&#x2F;运行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E8%87%AA%E5%B7%B1%E7%9A%84Kernel%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">运行自己的Kernel版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E8%87%AA%E5%B7%B1%E7%BC%96%E8%AF%91%E7%9A%84Kernel"><span class="toc-number">2.1.</span> <span class="toc-text">运行自己编译的Kernel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/banner.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Tip of the Week 126 ‘make_unique’是新的‘new’ | 我是Android开发者</title><meta name="keywords" content="C++11,C++Tips"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随着代码库的扩展，越来越难以了解你依赖的每件事的细节。需要深入的知识无法扩展：我们必须依靠接口和契约来知道代码是正确的，无论是在写还是在审查代码。在许多情况下，类型系统可以用一种通用的方式来提供这些契约。类型系统契约使用的一致性，通过识别在堆上分配的对象存在潜在风险分配或所有权转移的位置，可以更轻松的编写和审查代码。 虽然在C++中，我们可以通过使用纯值来减少动态内存分配的需求，但是有时我们需要对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tip of the Week 126 ‘make_unique’是新的‘new’">
+<meta property="og:url" content="https://www.otarutech.com/2022/05/08/Totw-126-make-unique/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="随着代码库的扩展，越来越难以了解你依赖的每件事的细节。需要深入的知识无法扩展：我们必须依靠接口和契约来知道代码是正确的，无论是在写还是在审查代码。在许多情况下，类型系统可以用一种通用的方式来提供这些契约。类型系统契约使用的一致性，通过识别在堆上分配的对象存在潜在风险分配或所有权转移的位置，可以更轻松的编写和审查代码。 虽然在C++中，我们可以通过使用纯值来减少动态内存分配的需求，但是有时我们需要对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/C++Tips-126.jpg">
+<meta property="article:published_time" content="2022-05-08T02:36:36.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.193Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++Tips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/C++Tips-126.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/05/08/Totw-126-make-unique/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Tip of the Week 126 ‘make_unique’是新的‘new’',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/C++Tips-126.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Tip of the Week 126 ‘make_unique’是新的‘new’</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-08T02:36:36.000Z" title="发表于 2022-05-08 10:36:36">2022-05-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.193Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-Tips-of-the-Week/">C++ Tips of the Week</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Tip of the Week 126 ‘make_unique’是新的‘new’"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>随着代码库的扩展，越来越难以了解你依赖的每件事的细节。需要深入的知识无法扩展：我们必须依靠接口和契约来知道代码是正确的，无论是在写还是在审查代码。在许多情况下，类型系统可以用一种通用的方式来提供这些契约。类型系统契约使用的一致性，通过识别在堆上分配的对象存在潜在风险分配或所有权转移的位置，可以更轻松的编写和审查代码。</p>
+<p>虽然在C++中，我们可以通过使用纯值来减少动态内存分配的需求，但是有时我们需要对象的声明周期超过其作用域。在动态分配对象时，C++代码应该优先使用智能指针（最常见的<code>std::unique_ptr</code>）而不是原生指针。这提供了关于分配和所有权转移一致性，并在那些需要更仔细审查代码所有权问题的地方留下了更清晰地视觉提示。满足C++14之后，在外部如何分配及异常安全上的副作用只是小事。</p>
+<p>关于此的两个关键工具是<code>absl::make_unique()</code>（C++14的<code>std::make_unique</code>的C++11实现，用于免泄漏动态分配）和<code>absl::WrapUnique()</code>（用于包装拥有指向相应<code>std::unique_ptr</code>类型的原生指针）。他们可以再<code>absl/memory/memory.h</code>中找到。</p>
+<h2 id="为什么要避免new？"><a href="#为什么要避免new？" class="headerlink" title="为什么要避免new？"></a>为什么要避免new？</h2><p>为什么代码要优先使用智能指针和分配函数而不是原生指针和<code>new</code>呢？</p>
+<ol>
+<li>如果可能，所有权最好表达在类型系统中。这允许审查者几乎完全通过本地检查来验证正确性（没有泄漏和重复删除）。（在堆性能异常敏感的代码中，这可能是可能原谅的：虽然代码小，但是由于<code>ABI</code>的约束，以值的方式阔函数传递<code>std::unique_ptr</code>的开销是非零。这不够重要到证明需要避免它。）</li>
+<li>有点像优先<code>push_back()</code>而不是<code>emplace_back()</code>的原因（TotW 112），<code>absl::make_unique()</code>直接表达了目的并且只能做一件事（使用公共构造函数分配，返回指定类型的<code>std::unique_ptr</code>）。这里没有类型转换或隐式行为。<code>absl::make_unique</code>在做明面上所讲的。</li>
+<li>同样可以用<code>std::unique_ptr my_t(new T(args))</code>来完成；但是这时多余的（重复类型名称T），对于某些人来说，尽量减少对<code>new</code>的调用是有价值的。</li>
+<li>如果所有分配都通过<code>absl::make_unique()</code>或工厂调用处理，则将<code>absl::WrapUnique()</code>用于实现这些工厂调用，用于与不依赖<code>std::unique_ptr</code>所有权的传统方法交互的代码转移，以及在极少数情况下需要通过聚合初始化动态分配（<code>absl::WrapUnique(new MyStruct&#123;3.141, “pi”&#125;)</code>）。在代码审查中，很容易发现<code>absl::WrapUnique</code>调用并评估“表达式看起来像所有权转移吗？”通常很明显（例如，它是一些工厂函数）。当它不明显时，我们需要检查函数以确保它实际上是原始指针所有权转移。</li>
+<li>如果我们主要依赖<code>std::unique_ptr</code>的构造函数，那么我们会看到如下的调用：<code>std::unique_ptr foo(Blah());std::unique_ptr bar(new T());</code>只需要片刻的检查就可以看到后者是安全的(没有泄露，没有重复删除)。前者呢？它取决于:如果<code>Blah()</code>返回一个<code>std::unique_ptr</code>,那很好，尽管如此，如果写成下面那样会更安全<code>std::unique_ptr foo = Blah();</code>如果<code>Blah()</code>是返回一个传递了所有权的原生指针，那也是可以的。如果<code>Blah()</code>只返回一些随机指针(没有传递)，那么就有问题了。依赖<code>absl::make_unique()</code> 和 <code>absl::WrapUnique()</code>(避免构造函数)为我们担心的地方提供了额外的视觉提示()(调用 <code>absl::WrapUnique()</code>，并且仅仅如此)。</li>
+</ol>
+<h2 id="我们应该如何选择使用哪一个呢？"><a href="#我们应该如何选择使用哪一个呢？" class="headerlink" title="我们应该如何选择使用哪一个呢？"></a>我们应该如何选择使用哪一个呢？</h2><ol>
+<li>默认情况下，使用<code>absl::make_unique()</code>（或者用<code>std::make_shared()</code>来处理那些共享所有权的烧友的情况下是合适的）来动态分配。例如，使用<code>auto bar = absl::make_unique()</code>替代<code>std::unique_ptr bar(new T());</code>并且用<code>bar = absl::make_unique()</code>; 来替代<code>bar.reset(new T());</code></li>
+<li>在使用非公有函数的工厂函数中，返回<code>std::unique_ptr</code>，在实际中使用<code>absl::WrapUnique(new T(...))</code>。</li>
+<li>当动态分配一个需要用大括号初始化（典型的结构体，数据和容器）的对象时，使用<code>absl::WrapUnique(new T&#123;...&#125;)</code>。</li>
+<li>当调用一个通过<code>T*</code>接受所有权的传统API时，要么提前使用<code>absl::make_unique</code>分配对象然后调用<code>ptr.release()</code>，要么直接在函数参数中使用<code>new</code>。</li>
+<li>当调用一个通过<code>T</code>返回所有权的传统API时，请立即使用<code>WrapUnique</code>构造一个智能指针（处分你打算立即传递一个指针到另外一个接受T形式所有权的传统API）。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相较于<code>absl::WrapUnique()</code>请优先使用<code>absl::make_unique()</code>，相较于原生<code>new</code>优先使用<code>absl::WrapUnique()</code>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/05/08/Totw-126-make-unique/">https://www.otarutech.com/2022/05/08/Totw-126-make-unique/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C-11/">C++11</a><a class="post-meta__tags" href="/tags/C-Tips/">C++Tips</a></div><div class="post_share"><div class="social-share" data-image="/img/C++Tips-126.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/13/benchmark-01/"><img class="prev-cover" src="/img/benchmark01.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">C++性能测试工具：google benchmark 入门(1)</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/08/Totw-123-optional-unique-ptr/"><img class="next-cover" src="/img/C++Tips-123.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Tip of the Week 123 absl::optional和std::unique_ptr</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/16/Totw-1-string-view/" title="Tip of the Week 1 string_view"><img class="cover" src="/img/C++Tips-1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-16</div><div class="title">Tip of the Week 1 string_view</div></div></a></div><div><a href="/2022/03/21/Totw-10-string-split/" title="Tip of the Week 10 分割字符串，不必拘小节"><img class="cover" src="/img/C++Tips-10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="title">Tip of the Week 10 分割字符串，不必拘小节</div></div></a></div><div><a href="/2022/03/28/Totw-11-return-policy/" title="Tip of the Week 11 返回策略"><img class="cover" src="/img/C++Tips-11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-28</div><div class="title">Tip of the Week 11 返回策略</div></div></a></div><div><a href="/2022/04/28/Totw-112-emplace-push-back/" title="Tip of the Week 112 emplace与push_back"><img class="cover" src="/img/C++Tips-112.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-28</div><div class="title">Tip of the Week 112 emplace与push_back</div></div></a></div><div><a href="/2022/05/05/Totw-116-const-ref-pointer/" title="Tip of the Week 116 保留多参数的引用"><img class="cover" src="/img/C++Tips-116.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-05</div><div class="title">Tip of the Week 116 保留多参数的引用</div></div></a></div><div><a href="/2022/05/08/Totw-123-optional-unique-ptr/" title="Tip of the Week 123 absl::optional和std::unique_ptr"><img class="cover" src="/img/C++Tips-123.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 123 absl::optional和std::unique_ptr</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E9%81%BF%E5%85%8Dnew%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">为什么要避免new？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E4%BD%BF%E7%94%A8%E5%93%AA%E4%B8%80%E4%B8%AA%E5%91%A2%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">我们应该如何选择使用哪一个呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/C++Tips-126.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Tip of the Week 116 保留多参数的引用 | 我是Android开发者</title><meta name="keywords" content="C++11,C++Tips"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从绘画到图像，从图像到文本，从文本到声音，一种虚构的指针指示、展示、固定、定位、强加引用系统，试图稳定一个独立空间。——米歇尔·福柯创作的这不是一只烟斗  const引用与指向const的指针const引用用作函数的参数，与指向const的指针相比，它有几个优点：它们不能为null。并且很明显该函数没有取得对象的所有权。但是它们有其他的有事会出现问题的差异：它们更加隐式（即在调用点没有任何内容表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tip of the Week 116 保留多参数的引用">
+<meta property="og:url" content="https://www.otarutech.com/2022/05/05/Totw-116-const-ref-pointer/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="从绘画到图像，从图像到文本，从文本到声音，一种虚构的指针指示、展示、固定、定位、强加引用系统，试图稳定一个独立空间。——米歇尔·福柯创作的这不是一只烟斗  const引用与指向const的指针const引用用作函数的参数，与指向const的指针相比，它有几个优点：它们不能为null。并且很明显该函数没有取得对象的所有权。但是它们有其他的有事会出现问题的差异：它们更加隐式（即在调用点没有任何内容表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/C++Tips-116.jpg">
+<meta property="article:published_time" content="2022-05-05T13:33:29.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.193Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++Tips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/C++Tips-116.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/05/05/Totw-116-const-ref-pointer/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Tip of the Week 116 保留多参数的引用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/C++Tips-116.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Tip of the Week 116 保留多参数的引用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-05T13:33:29.000Z" title="发表于 2022-05-05 21:33:29">2022-05-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.193Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-Tips-of-the-Week/">C++ Tips of the Week</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Tip of the Week 116 保留多参数的引用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><strong>从绘画到图像，从图像到文本，从文本到声音，一种虚构的指针指示、展示、固定、定位、强加引用系统，试图稳定一个独立空间。——米歇尔·福柯创作的这不是一只烟斗</strong></p>
+</blockquote>
+<h2 id="const引用与指向const的指针"><a href="#const引用与指向const的指针" class="headerlink" title="const引用与指向const的指针"></a>const引用与指向const的指针</h2><p><code>const</code>引用用作函数的参数，与指向<code>const</code>的指针相比，它有几个优点：它们不能为<code>null</code>。并且很明显该函数没有取得对象的所有权。但是它们有其他的有事会出现问题的差异：它们更加隐式（即在调用点没有任何内容表明我们正在接受引用），并且它们可以被绑定到临时变量。</p>
+<h2 id="类中悬空引用的风险"><a href="#类中悬空引用的风险" class="headerlink" title="类中悬空引用的风险"></a>类中悬空引用的风险</h2><p>将以下类作为示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">Foo</span><span class="params">(<span class="keyword">const</span> std::string&amp; content)</span> : content_(content) &#123;</span>&#125;</span><br><span class="line">  <span class="function"><span class="keyword">const</span> std::string&amp; <span class="title">content</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> content_; &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">const</span> std::string&amp; content_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>它看起来是合理的。但是如果我们从<code>string</code>字面量构建一个<code>Foo</code>会发生什么呢？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">Foo <span class="title">foo</span><span class="params">(<span class="string">&quot;something&quot;</span>)</span></span>;</span><br><span class="line">  std::cout &lt;&lt; foo.<span class="built_in">content</span>();  <span class="comment">// 轰隆!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当创建<code>foo</code>时，<code>content_</code>成员被绑定到临时<code>std::string</code>对象，该对象创建自字面量并传递给构造函数。临时字符串在创建的那一行结尾就离开了作用域。现在<code>foo.content_</code>是一个已经不存在的对象的引用。访问它是未定义的行为，任何事情都可能发生，在测试中工作正常，到实际生产中出现错误。</p>
+<h2 id="解决方案：使用指针"><a href="#解决方案：使用指针" class="headerlink" title="解决方案：使用指针"></a>解决方案：使用指针</h2><p>在我们的示例中，最简单的方案可能是按值来传递和保存<code>string</code>。但是假定我们需要参考原始的参数，例如它不是一个<code>string</code>，而是一些更有趣的类型。解决方案是按指针传递参数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">// 不要忘记这个注释：</span></span><br><span class="line">  <span class="comment">// 不要接管content的所有权,content必须引用比这个对象更长生存期的有效字符串</span></span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">Foo</span><span class="params">(<span class="keyword">const</span> std::string* content)</span> : content_(content) &#123;</span>&#125;</span><br><span class="line">  <span class="function"><span class="keyword">const</span> std::string&amp; <span class="title">content</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> *content_; &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">const</span> std::string* <span class="keyword">const</span> content_;  <span class="comment">// 不拥有，不能为空</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>现在下面的内容将直接编译失败：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">GetString</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">Foo <span class="title">foo1</span><span class="params">(&amp;GetString())</span></span>;  <span class="comment">// 错误：拥有类型&#x27;std::string临时对象的地址</span></span><br><span class="line">  <span class="function">Foo <span class="title">foo2</span><span class="params">(&amp;<span class="string">&quot;something&quot;</span>)</span></span>;  <span class="comment">// 错误：与&#x27;Foo&#x27;初始化构造函数不匹配</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这下面的调用处的对象保留参数的地址是相当清晰地：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Func2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::string content = <span class="built_in">GetString</span>();</span><br><span class="line">  <span class="function">Foo <span class="title">foo</span><span class="params">(&amp;content)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="更进一步，少一个评论：存储引用"><a href="#更进一步，少一个评论：存储引用" class="headerlink" title="更进一步，少一个评论：存储引用"></a>更进一步，少一个评论：存储引用</h2><p>你可能注意到，我们讲了两次关于指针不能为空并且它也不被拥有，一次是在构造函数的文档中，一次是在关于实例变量的注释中，这是必要的吗？考虑一下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Baz</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">// 不拥有任意所有权，并且所有的指针必须引用超过构造的生命周期的有效对象</span></span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">Baz</span><span class="params">(<span class="keyword">const</span> Arg1* arg1, Arg2* arg2)</span> : arg1_(*arg1), arg2_(*arg2) &#123;</span>&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="comment">// 现在很明显我们没有所有权并且引用不能为空</span></span><br><span class="line">  <span class="keyword">const</span> Arg1&amp; arg1_;</span><br><span class="line">  Arg2&amp; arg2_;  <span class="comment">// 是的，非常量引用是合适的风格。</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>引用类型的成员的一个缺点是不能重新赋值，意味着你的类没有一个拷贝赋值运算符（拷贝构造函数是正常的），但是显式地删除它以遵循3规则可能是有意义的。如果你的类应该是可分配的，那么你需要一个非常量指针，仍旧只想一个常量对象。</p>
+<p>如果你想深入防御并认为调用者可能意外的传递一个空指针，那么可以使用“<code>ABSL_DIE_IF_NULL(arg1)</code>”来产生一个崩溃。请注意，仅仅解引用空指针并不像通常认为的那样会保证崩溃；相反它是未定义行为并且不应该被依赖。这里可能发生的是，当有人实际访问这个字段时，由于引用被作为指针来执行，它将被拷贝并且随后将崩溃。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>如果参数是拷贝的，或者只是在构造函数中使用并且在构造函数对象中保留它的引用，那么通过常量引用传递参数到构造函数是可行的。在其他情况中，考虑以指针传（无论是否<code>const</code>）递参数。还请记住，如果你实际正在传递对象的所有权，则应该将其作为<code>std::unique_ptr</code>来传递。</p>
+<p>最后，此处讨论的内容不限定于构造函数：以某种方式保留参数之一的别名的函数，无论是通过放置一个指针在缓存中还是将参数绑定到分离函数中，都应该通过指针获取该函数。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/05/05/Totw-116-const-ref-pointer/">https://www.otarutech.com/2022/05/05/Totw-116-const-ref-pointer/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C-11/">C++11</a><a class="post-meta__tags" href="/tags/C-Tips/">C++Tips</a></div><div class="post_share"><div class="social-share" data-image="/img/C++Tips-116.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/08/Totw-123-optional-unique-ptr/"><img class="prev-cover" src="/img/C++Tips-123.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Tip of the Week 123 absl::optional和std::unique_ptr</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/28/Totw-112-emplace-push-back/"><img class="next-cover" src="/img/C++Tips-112.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Tip of the Week 112 emplace与push_back</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/16/Totw-1-string-view/" title="Tip of the Week 1 string_view"><img class="cover" src="/img/C++Tips-1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-16</div><div class="title">Tip of the Week 1 string_view</div></div></a></div><div><a href="/2022/03/21/Totw-10-string-split/" title="Tip of the Week 10 分割字符串，不必拘小节"><img class="cover" src="/img/C++Tips-10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="title">Tip of the Week 10 分割字符串，不必拘小节</div></div></a></div><div><a href="/2022/03/28/Totw-11-return-policy/" title="Tip of the Week 11 返回策略"><img class="cover" src="/img/C++Tips-11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-28</div><div class="title">Tip of the Week 11 返回策略</div></div></a></div><div><a href="/2022/04/28/Totw-112-emplace-push-back/" title="Tip of the Week 112 emplace与push_back"><img class="cover" src="/img/C++Tips-112.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-28</div><div class="title">Tip of the Week 112 emplace与push_back</div></div></a></div><div><a href="/2022/05/08/Totw-123-optional-unique-ptr/" title="Tip of the Week 123 absl::optional和std::unique_ptr"><img class="cover" src="/img/C++Tips-123.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 123 absl::optional和std::unique_ptr</div></div></a></div><div><a href="/2022/05/08/Totw-126-make-unique/" title="Tip of the Week 126 ‘make_unique’是新的‘new’"><img class="cover" src="/img/C++Tips-126.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 126 ‘make_unique’是新的‘new’</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#const%E5%BC%95%E7%94%A8%E4%B8%8E%E6%8C%87%E5%90%91const%E7%9A%84%E6%8C%87%E9%92%88"><span class="toc-number">1.</span> <span class="toc-text">const引用与指向const的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E4%B8%AD%E6%82%AC%E7%A9%BA%E5%BC%95%E7%94%A8%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="toc-number">2.</span> <span class="toc-text">类中悬空引用的风险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%8C%87%E9%92%88"><span class="toc-number">3.</span> <span class="toc-text">解决方案：使用指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5%EF%BC%8C%E5%B0%91%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%EF%BC%9A%E5%AD%98%E5%82%A8%E5%BC%95%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">更进一步，少一个评论：存储引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/C++Tips-116.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

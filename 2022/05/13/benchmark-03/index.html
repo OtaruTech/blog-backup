@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>C++性能测试工具：google benchmark 进阶 | 我是Android开发者</title><meta name="keywords" content="benchmark"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文将会介绍如何使用模板以及参数生成器来批量生成测试用例，简化繁琐的性能测试代码。 测试对象这次测试的对象是标准的vector，我们在Linux GCC上进行测试。为了写代码方便，开启了C++17的支持。 这次的疑问来自于《A Tour of C++》这本书，在第九章给出了一个很有意义的建议：尽量少用reserve方法。 我们都知道reserve会提前分配足够大的内存来容纳元素，这样在push_b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++性能测试工具：google benchmark 进阶">
+<meta property="og:url" content="https://www.otarutech.com/2022/05/13/benchmark-03/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="本文将会介绍如何使用模板以及参数生成器来批量生成测试用例，简化繁琐的性能测试代码。 测试对象这次测试的对象是标准的vector，我们在Linux GCC上进行测试。为了写代码方便，开启了C++17的支持。 这次的疑问来自于《A Tour of C++》这本书，在第九章给出了一个很有意义的建议：尽量少用reserve方法。 我们都知道reserve会提前分配足够大的内存来容纳元素，这样在push_b">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/benchmark03.png">
+<meta property="article:published_time" content="2022-05-13T15:05:07.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.196Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="benchmark">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/benchmark03.png"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/05/13/benchmark-03/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C++性能测试工具：google benchmark 进阶',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/benchmark03.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C++性能测试工具：google benchmark 进阶</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-13T15:05:07.000Z" title="发表于 2022-05-13 23:05:07">2022-05-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.196Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-C/">C/C++</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-C/benchmark/">benchmark</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">24k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C++性能测试工具：google benchmark 进阶"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文将会介绍如何使用模板以及参数生成器来批量生成测试用例，简化繁琐的性能测试代码。</p>
+<h2 id="测试对象"><a href="#测试对象" class="headerlink" title="测试对象"></a>测试对象</h2><p>这次测试的对象是标准的vector，我们在Linux GCC上进行测试。为了写代码方便，开启了C++17的支持。</p>
+<p>这次的疑问来自于《A Tour of C++》这本书，在第九章给出了一个很有意义的建议：尽量少用reserve方法。</p>
+<p>我们都知道reserve会提前分配足够大的内存来容纳元素，这样在push_back时可以减少内存分配和元素移动的次数，从而提高性能。所以习惯上如果我们知道vector中存储元素的大致数量，就会使用reserve提前进行内存分配，这时典型的“空间换时间”。</p>
+<p>而书中给出的理由仅仅是说vector的内存分配器性能已经很高，预分配往往是多此一举，收效甚微。事实到底如何呢？性能问题光靠脑补是不能定位的，所以我们用实验结果说话。</p>
+<h2 id="使用模板函数生成测试"><a href="#使用模板函数生成测试" class="headerlink" title="使用模板函数生成测试"></a>使用模板函数生成测试</h2><p>测试用例的设计很简单，我们定义普通vector和reserve过的vector，然后分别对其添加一定数量的元素（逐步从少到多）测试性能。同时vector本身是泛型容器，所以为了测试的全面性我们需要测试两至三种类型参数。</p>
+<p>如果针对每一种情况写测试函数，显然违反了DRY原则，因为除了vector的类型参数不同，其他代码几乎是完全一样的。</p>
+<p>对于上面的需求，就需要模板测试函数登场了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, std::<span class="keyword">size_t</span> length, <span class="keyword">bool</span> is_reserve = <span class="literal">true</span>&gt;</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">bench_vector_reserve</span>(benchmark::State&amp; state)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> _ : state) &#123;</span><br><span class="line">		std::vector&lt;T&gt; container;</span><br><span class="line">		<span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(is_reserve)</span> </span>&#123;</span><br><span class="line">			container.<span class="built_in">reserve</span>(length);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (std::<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; length; ++i) &#123;</span><br><span class="line">			container.<span class="built_in">push_back</span>(T&#123;&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非常的简单，我们通过length控制插入的元素个数；is_reserve则负责控制是否预分配内存，通过if constexpr可以生成reserve和不进行任何操作的两种代码（C++17的constexpr，推荐来<a target="_blank" rel="noopener" href="https://www.cnblogs.com/apocelipes/p/14536236.html#%E4%BD%BF%E7%94%A8%E7%BC%96%E8%AF%91%E6%9C%9F%E6%9D%A1%E4%BB%B6%E5%88%86%E6%94%AF">这里</a>）。</p>
+<p>然后我们像往常一样定义一个测试用例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BENCHMARK</span>(bench_vector_reserve&lt;std::string,<span class="number">100</span>&gt;);</span><br></pre></td></tr></table></figure>
+
+<p>可是等我们编译的时候却报错了！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ g++ test.cpp -lpthread -lbenchmark -lbenchmark_main</span><br><span class="line"> </span><br><span class="line">test.cpp:<span class="number">19</span>:<span class="number">48</span>: 错误：宏“BENCHMARK”传递了 <span class="number">2</span> 个参数，但只需要 <span class="number">1</span> 个</span><br><span class="line">   <span class="number">19</span> | <span class="built_in">BENCHMARK</span>(bench_vector_reserve&lt;std::string,<span class="number">100</span>&gt;);</span><br><span class="line">      |                                                ^</span><br><span class="line">In file included from a.cpp:<span class="number">1</span>:</span><br><span class="line">/usr/local/include/benchmark/benchmark.h:<span class="number">1146</span>: 附注：macro <span class="string">&quot;BENCHMARK&quot;</span> defined here</span><br><span class="line"> <span class="number">1146</span> | <span class="meta">#<span class="meta-keyword">define</span> BENCHMARK(n)                                     \</span></span><br><span class="line"><span class="meta">      | </span></span><br><span class="line">test.cpp:<span class="number">19</span>:<span class="number">1</span>: 错误：‘BENCHMARK’不是一个类型名</span><br><span class="line">   <span class="number">19</span> | <span class="built_in">BENCHMARK</span>(bench_vector_reserve&lt;std::string,<span class="number">100</span>&gt;);</span><br></pre></td></tr></table></figure>
+
+<p>原因是这样的，在编译器处理宏的时候实际上不会考虑C++语法，所以分割模板参数的都好被识别成了分割宏参数的都好，因此在宏处理的眼里我们像是传了两个参数。这也说明了BENCHMARK是处理不了模板的。</p>
+<p>不过别担心，Google早就想到这种情况了，所以提供了BENCHMARK_TEMPLATE宏，我们只需要把模板名字和需要的类型参数一次传给宏即可：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">100</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">1000</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">10000</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">100000</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">100</span>, <span class="literal">false</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">1000</span>, <span class="literal">false</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">10000</span>, <span class="literal">false</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="number">100000</span>, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以正常编译运行了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">2022-05-11T22:46:08+08:00</span><br><span class="line">Running ./a.out</span><br><span class="line">Run on (24 X 3800 MHz CPU s)</span><br><span class="line">CPU Caches:</span><br><span class="line">  L1 Data 32 KiB (x12)</span><br><span class="line">  L1 Instruction 32 KiB (x12)</span><br><span class="line">  L2 Unified 512 KiB (x12)</span><br><span class="line">  L3 Unified 16384 KiB (x4)</span><br><span class="line">Load Average: 2.35, 2.14, 2.08</span><br><span class="line">-------------------------------------------------------------------------------------------</span><br><span class="line">Benchmark                                                 Time             CPU   Iterations</span><br><span class="line">-------------------------------------------------------------------------------------------</span><br><span class="line">bench_vector_reserve&lt;std::string, 100&gt;                10585 ns        10582 ns        66709</span><br><span class="line">bench_vector_reserve&lt;std::string, 1000&gt;              105281 ns       105259 ns         6294</span><br><span class="line">bench_vector_reserve&lt;std::string, 10000&gt;            1042131 ns      1041909 ns          668</span><br><span class="line">bench_vector_reserve&lt;std::string, 100000&gt;          10522072 ns     10519683 ns           66</span><br><span class="line">bench_vector_reserve&lt;std::string, 100, <span class="literal">false</span>&gt;         19668 ns        19664 ns        35544</span><br><span class="line">bench_vector_reserve&lt;std::string, 1000, <span class="literal">false</span>&gt;       171773 ns       171729 ns         4092</span><br><span class="line">bench_vector_reserve&lt;std::string, 10000, <span class="literal">false</span>&gt;     2073056 ns      2072603 ns          337</span><br><span class="line">bench_vector_reserve&lt;std::string, 100000, <span class="literal">false</span>&gt;   19777850 ns     19771465 ns           35</span><br></pre></td></tr></table></figure>
+
+<p>可以看到reserve过的容器性能几乎比默认的快了一倍。</p>
+<p>不过在揭晓为什么书上不推荐reserve的谜底之前，我们的代码还有可以简化的地方。</p>
+<h2 id="定制测试参数"><a href="#定制测试参数" class="headerlink" title="定制测试参数"></a>定制测试参数</h2><p>首当其冲的问题其实还是违反了DRY原则——除了数字，其他内容都是重复的。</p>
+<p>看到这种代码直觉就告诉我该做些改进了。</p>
+<p>首先我们来复习一下，在前一篇中我们已经学习过它了，Range接受start和end两个int64_t类型的参数，默认从start起每次累乘8，一直达到end。</p>
+<p>通过RangeMultiplier我们可以改变乘数，比如从8变成10.</p>
+<p>在这里我们的length参数其实是不必要的，所以代码可以这样改：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">bool</span> is_reserve = <span class="literal">true</span>&gt;</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">bench_vector_reserve</span>(benchmark::State&amp; state)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> _ : state) &#123;</span><br><span class="line">		std::vector&lt;T&gt; container;</span><br><span class="line">		<span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(is_reserve)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 通过range方法获取传入的参数</span></span><br><span class="line">			container.<span class="built_in">reserve</span>(state.<span class="built_in">range</span>(<span class="number">0</span>));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (std::<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; state.<span class="built_in">range</span>(<span class="number">0</span>); ++i) &#123;</span><br><span class="line">			container.<span class="built_in">push_back</span>(T&#123;&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string)-&gt;<span class="built_in">RangeMultiplier</span>(<span class="number">10</span>)-&gt;<span class="built_in">Range</span>(<span class="number">10</span>, <span class="number">10000</span> * <span class="number">10</span>);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="literal">false</span>)-&gt;<span class="built_in">RangeMultiplier</span>(<span class="number">10</span>)-&gt;<span class="built_in">Range</span>(<span class="number">10</span>, <span class="number">10000</span> * <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在我们测试的元素数量是{10, 100, 1000, 10^4, 10^5}。</p>
+<p>除此之外还有另一种叫”密集参数“的Ranges。google benchmark提供了DenseRange方法。</p>
+<p>这个方法的原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DenseRange</span>(<span class="keyword">int64_t</span> start, <span class="keyword">int64_t</span> end, <span class="keyword">int64_t</span> step);</span><br></pre></td></tr></table></figure>
+
+<p>Range是累乘，而DenseRange是累加，因为累乘会导致几何级数的增长，在数轴上的分布越来越稀疏，累加则看上去像是均匀分布的，因此累加的参数生成器被叫做密集参数生成器。</p>
+<p>如果我们把测试用例这么该：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string)-&gt;<span class="built_in">DenseRange</span>(<span class="number">1000</span>, <span class="number">100</span> * <span class="number">100</span>, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在我们的length就是这样一个序列：{1000, 2000, 3000, …, 9000, 10000}。</p>
+<p>关于自定义参数最后一个知识点是ArgsProduct。看名字就知道这时一个参数工厂。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ArgsProduct</span>(<span class="keyword">const</span> std::vector&lt; std::vector&lt;<span class="keyword">int64_t</span>&gt; &gt;&amp; arglists);</span><br></pre></td></tr></table></figure>
+
+<p><code>std::vector&lt;int64_t&gt;</code>实际上就是一组参数，<code>arglists</code>就是多组参数的合集，他们之间会被求笛卡尔积，举个例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BENCHMARK</span>(BM_test)-&gt;<span class="built_in">ArgsProduct</span>(&#123; &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>&#125;, &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125; &#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 等价于下面的</span></span><br><span class="line"><span class="built_in">BENCHMARK</span>(BM_test)-&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;a&quot;</span>, <span class="number">1</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;a&quot;</span>, <span class="number">2</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;a&quot;</span>, <span class="number">3</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;a&quot;</span>, <span class="number">4</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;b&quot;</span>, <span class="number">1</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;b&quot;</span>, <span class="number">2</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;b&quot;</span>, <span class="number">3</span>&#125;)</span><br><span class="line">                  ...</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;d&quot;</span>, <span class="number">3</span>&#125;)</span><br><span class="line">                  -&gt;<span class="built_in">Args</span>(&#123;<span class="string">&quot;d&quot;</span>, <span class="number">4</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到参数工厂其实得自己手写所有参数，那如果我想配合工厂使用Ranges呢？</p>
+<p>没问题，benchmark的开发者们早就想到了，所以提供了下面这些帮助函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">benchmark::<span class="built_in">CreateRange</span>(<span class="number">8</span>, <span class="number">128</span>, <span class="comment">/*multi=*/</span><span class="number">2</span>)   <span class="comment">// 生成：[8, 16, 32, 64, 128]</span></span><br><span class="line">benchmark::<span class="built_in">CreateDenseRange</span>(<span class="number">1</span>, <span class="number">6</span>, <span class="comment">/*step=*/</span><span class="number">1</span>) <span class="comment">// 生成：[1, 2, 3, 4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+
+<p>换成我们这边的例子，就可以这样写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string)-&gt;<span class="built_in">ArgsProduct</span>(&#123;</span><br><span class="line">    benchmark::<span class="built_in">CreateRange</span>(<span class="number">10</span>, <span class="number">10000</span>*<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">BENCHMARK_TEMPLATE</span>(bench_vector_reserve, std::string, <span class="literal">false</span>)-&gt;<span class="built_in">ArgsProduct</span>(&#123;</span><br><span class="line">    benchmark::<span class="built_in">CreateRange</span>(<span class="number">10</span>, <span class="number">10000</span>*<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>借助仅仅两行代码就能生成数量可观的测试用例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">2022-05-12T10:58:08+08:00</span><br><span class="line">Running ./a.out</span><br><span class="line">Run on (24 X 3800 MHz CPU s)</span><br><span class="line">CPU Caches:</span><br><span class="line">  L1 Data 32 KiB (x12)</span><br><span class="line">  L1 Instruction 32 KiB (x12)</span><br><span class="line">  L2 Unified 512 KiB (x12)</span><br><span class="line">  L3 Unified 16384 KiB (x4)</span><br><span class="line">Load Average: 1.88, 2.08, 2.07</span><br><span class="line">***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.</span><br><span class="line">------------------------------------------------------------------------------------------</span><br><span class="line">Benchmark                                                Time             CPU   Iterations</span><br><span class="line">------------------------------------------------------------------------------------------</span><br><span class="line">bench_vector_reserve&lt;std::string&gt;/10                  1329 ns         1329 ns       553853</span><br><span class="line">bench_vector_reserve&lt;std::string&gt;/100                11071 ns        11068 ns        67213</span><br><span class="line">bench_vector_reserve&lt;std::string&gt;/1000              107722 ns       107686 ns         6361</span><br><span class="line">bench_vector_reserve&lt;std::string&gt;/10000            1071972 ns      1071554 ns          637</span><br><span class="line">bench_vector_reserve&lt;std::string&gt;/100000          10821865 ns     10815148 ns           63</span><br><span class="line">bench_vector_reserve&lt;std::string, <span class="literal">false</span>&gt;/10           2791 ns         2790 ns       247312</span><br><span class="line">bench_vector_reserve&lt;std::string, <span class="literal">false</span>&gt;/100         19788 ns        19777 ns        35436</span><br><span class="line">bench_vector_reserve&lt;std::string, <span class="literal">false</span>&gt;/1000       170198 ns       170146 ns         4221</span><br><span class="line">bench_vector_reserve&lt;std::string, <span class="literal">false</span>&gt;/10000     2063908 ns      2062654 ns          341</span><br><span class="line">bench_vector_reserve&lt;std::string, <span class="literal">false</span>&gt;/100000   19086785 ns     19077179 ns           37</span><br></pre></td></tr></table></figure>
+
+<p>当然，这只是一个类型参数，实际上我们还有另外两个类型需要测试。</p>
+<h2 id="揭晓答案"><a href="#揭晓答案" class="headerlink" title="揭晓答案"></a>揭晓答案</h2><p>实际上上面测试的都是我们明确知道vector一定会被插入N个元素不多不少的情况。</p>
+<p>然而这种情况其实在开发中是不多见的，更多的时候我们只能得到vector里元素数量的平均数、众数，甚至是一个没什么可靠依据的经验值。</p>
+<p>所以试想一下这种情况，reserve给的参数是1000，而我的vector总是会插入1001~1005个参数，显然1000是不够的，除了reserve外还会进行一次内存分配，而且这次分配后很可能还需要把原来的元素都转移过去（realloc不是总能找到合适的位置扩展已有内存），这样子的开销究竟有多大，我们来修改测试一下：</p>
+<img src="/2022/05/13/benchmark-03/Untitled.png" class="" title="Untitled">
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们学习了如何使用模板和参数生成器创建大量测试用例，以提高编写测试的效率。</p>
+<p>我们还顺便了解了vector.reserve对性能的影响，总结规律有几条：</p>
+<ol>
+<li>如果明确知道vector要存放元素的具体数量，推荐reserve，性能提升是有目共睹的；</li>
+<li>否则你不应该使用reserve，一来有提前优化之嫌，二是在使用libstdc++的程序上会产生较大的性能波动；</li>
+<li>接上一条，reserve使用不当还会造成内存的浪费。</li>
+</ol>
+<p>看来《A Tour of C++》的作者只说对了一半，这也证明了性能问题不能靠臆断，一定要靠测试来定位、解决。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/05/13/benchmark-03/">https://www.otarutech.com/2022/05/13/benchmark-03/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/benchmark/">benchmark</a></div><div class="post_share"><div class="social-share" data-image="/img/benchmark03.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/20/system-perf-01-introducing/"><img class="prev-cover" src="/img/system-perf-01.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux性能分析60秒</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/13/benchmark-02/"><img class="next-cover" src="/img/benchmark02.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">C++性能测试工具：google benchmark 入门(2)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/05/13/benchmark-01/" title="C++性能测试工具：google benchmark 入门(1)"><img class="cover" src="/img/benchmark01.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-13</div><div class="title">C++性能测试工具：google benchmark 入门(1)</div></div></a></div><div><a href="/2022/05/13/benchmark-02/" title="C++性能测试工具：google benchmark 入门(2)"><img class="cover" src="/img/benchmark02.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-13</div><div class="title">C++性能测试工具：google benchmark 入门(2)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">测试对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">使用模板函数生成测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E6%B5%8B%E8%AF%95%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">定制测试参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%AD%E6%99%93%E7%AD%94%E6%A1%88"><span class="toc-number">4.</span> <span class="toc-text">揭晓答案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/benchmark03.png')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

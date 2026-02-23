@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Tip of the Week 88 初始化：=,()和{} | 我是Android开发者</title><meta name="keywords" content="C++11,C++Tips,初始化"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Tip of the Week#88: 初始化：&#x3D;,()和{}C++11提供了一种称为”统一初始化语法”的新语法，它被认为统一所有不同风格的初始化，避免最麻烦人的解析，并避免窄化转换。这种新机制意味着我们现在有另一种初始化语法，它有自己的权衡。 C++11括号初始化一些统一初始化语法的支持者会建议我们使用{}和直接初始化(不适用’&#x3D;’，尽管在多数情况下两种形式调用相同的构造函数)来初始化所有类型：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tip of the Week 88 初始化：&#x3D;,()和{}">
+<meta property="og:url" content="https://www.otarutech.com/2022/04/25/Totw-88-initialize/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="Tip of the Week#88: 初始化：&#x3D;,()和{}C++11提供了一种称为”统一初始化语法”的新语法，它被认为统一所有不同风格的初始化，避免最麻烦人的解析，并避免窄化转换。这种新机制意味着我们现在有另一种初始化语法，它有自己的权衡。 C++11括号初始化一些统一初始化语法的支持者会建议我们使用{}和直接初始化(不适用’&#x3D;’，尽管在多数情况下两种形式调用相同的构造函数)来初始化所有类型：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/C++Tips-88.png">
+<meta property="article:published_time" content="2022-04-25T03:55:36.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.194Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++Tips">
+<meta property="article:tag" content="初始化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/C++Tips-88.png"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2022/04/25/Totw-88-initialize/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Tip of the Week 88 初始化：=,()和{}',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/C++Tips-88.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Tip of the Week 88 初始化：=,()和{}</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-25T03:55:36.000Z" title="发表于 2022-04-25 11:55:36">2022-04-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.194Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-Tips-of-the-Week/">C++ Tips of the Week</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Tip of the Week 88 初始化：=,()和{}"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Tip-of-the-Week-88-初始化：-和"><a href="#Tip-of-the-Week-88-初始化：-和" class="headerlink" title="Tip of the Week#88: 初始化：=,()和{}"></a>Tip of the Week#88: 初始化：=,()和{}</h1><p>C++11提供了一种称为”统一初始化语法”的新语法，它被认为统一所有不同风格的初始化，避免最麻烦人的解析，并避免窄化转换。这种新机制意味着我们现在有另一种初始化语法，它有自己的权衡。</p>
+<h2 id="C-11括号初始化"><a href="#C-11括号初始化" class="headerlink" title="C++11括号初始化"></a>C++11括号初始化</h2><p>一些统一初始化语法的支持者会建议我们使用{}和直接初始化(不适用’=’，尽管在多数情况下两种形式调用相同的构造函数)来初始化所有类型：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x&#123;<span class="number">2</span>&#125;;</span><br><span class="line">std::string foo&#123;<span class="string">&quot;Hello World&quot;</span>&#125;;</span><br><span class="line">std::vector&lt;<span class="keyword">int</span>&gt; v&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>对比（例如）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">2</span>;</span><br><span class="line">std::string foo = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">std::vector&lt;<span class="keyword">int</span>&gt; v = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这种方法有两个特点。首先，“统一”是一个延伸概念：在某些情况下，在调用什么以及如何调用这方面依然存在歧义(针对普通读者，而不是编译器)。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt; strings&#123;<span class="number">2</span>&#125;; <span class="comment">// 两个空字符串的vector</span></span><br><span class="line">std::vector&lt;<span class="keyword">int</span>&gt; ints&#123;<span class="number">2</span>&#125;;            <span class="comment">// 仅仅一个整数2的vector</span></span><br></pre></td></tr></table></figure>
+
+<p>其次：这种语法并不完全直观：没有其他通用语法像这样使用。这种语言当然可以引入新的令人惊讶的语法，并且在某些情况下有必要使用它的技术原因——尤其是在通用代码中。重要的问题是：我们应该在多大程度上改变我们的习惯和语言理解来利用这种改变？改变我们的习惯或存在的代码，这种代码是否值得？对于统一初始化语法，我们一般不认为利大于弊。</p>
+<h2 id="关于初始化的最佳时间"><a href="#关于初始化的最佳时间" class="headerlink" title="关于初始化的最佳时间"></a>关于初始化的最佳时间</h2><p>相反，我们推荐下面的指南来进行“如何初始化一个变量？”，既可以再你自己的代码中遵循，也可以在你的代码审查中引用：</p>
+<ul>
+<li>当用预期的字面量(例如：<code>int</code>, <code>float</code>或<code>std::string</code>值)、智能指针(例如：<code>std::shared_ptr</code>, <code>std::unique_ptr</code>)、容器(<code>std::vector</code>, <code>std::map</code>等)来直接初始化时，当执行结构体初始化或进行深拷贝时，请使用赋值语法。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">2</span>;</span><br><span class="line">std::string foo = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">std::vector&lt;<span class="keyword">int</span>&gt; v = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">std::unique_ptr&lt;Matrix&gt; matrix = <span class="built_in">NewMatrix</span>(rows, cols);</span><br><span class="line">MyStruct x = &#123;<span class="literal">true</span>, <span class="number">5.0</span>&#125;;</span><br><span class="line">MyProto copied_proto = original_proto;</span><br></pre></td></tr></table></figure>
+
+<p>而不是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 糟糕的代码</span></span><br><span class="line"><span class="keyword">int</span> x&#123;<span class="number">2</span>&#125;;</span><br><span class="line">std::string foo&#123;<span class="string">&quot;Hello World&quot;</span>&#125;;</span><br><span class="line">std::vector&lt;<span class="keyword">int</span>&gt; v&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">std::unique_ptr&lt;Matrix&gt; matrix&#123;<span class="built_in">NewMatrix</span>(rows, cols)&#125;;</span><br><span class="line">MyStruct x&#123;<span class="literal">true</span>, <span class="number">5.0</span>&#125;;</span><br><span class="line">MyProto copied_proto&#123;original_proto&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当初始化正在执行一些活动的逻辑时，使用传统的构造函数语法(用括号)，而不是简单的将值组合在一起。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Frobber <span class="title">frobber</span><span class="params">(size, &amp;bazzer_to_duplicate)</span></span>;</span><br><span class="line"><span class="function">std::vector&lt;<span class="keyword">double</span>&gt; <span class="title">fifty_pies</span><span class="params">(<span class="number">50</span>, <span class="number">3.14</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>对比</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 糟糕的代码</span></span><br><span class="line"><span class="comment">// 可以调用一个初始化列表构造函数，或者一个两个参数的构造函数 </span></span><br><span class="line">Frobber frobber&#123;size, &amp;bazzer_to_duplicate&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 制作一个2个double的vector</span></span><br><span class="line">std::vector&lt;<span class="keyword">double</span>&gt; fifty_pies&#123;<span class="number">50</span>, <span class="number">3.14</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>只有以上选项不能编译时，才使用{}初始化，而不用=</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">Foo</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c) : array_&#123;a, b, c&#125; &#123;&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">int</span> array_[<span class="number">5</span>];</span><br><span class="line">  <span class="comment">// 因为构造函数标记为explicit并且是非拷贝类型，因此需要&#123;&#125;</span></span><br><span class="line">  EventManager em&#123;EventManager::<span class="built_in">Options</span>()&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>绝不滥用{}和auto  例如，不要这样子：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 糟糕的代码</span></span><br><span class="line"><span class="keyword">auto</span> x&#123;<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> y = &#123;<span class="number">2</span>&#125;; <span class="comment">// 这是std::initializer_list&lt;int&gt;!</span></span><br></pre></td></tr></table></figure>
+
+<p>（对于语言专家而言：如果可行，有限使用拷贝初始化而不是直接初始化，并在直接初始化时使用圆括号而不是大括号。）</p>
+<p>也许对这个问题最完整的描述是<strong>Herb Sutter的GotW贴文</strong>。尽管他展示了一个直接用大括号初始化<code>int</code>的示例，但是他最终的建议大致与我们再次提出的建议相符：Herb说“在哪里你更愿意只看到-符号”，我们毫不含糊的有限确定地看到那个。结合更加一直的在多参数构造函数上使用explicit，这提供了在可读性、确切性和正确性之间的平衡。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>统一初始化语法的权衡结果通常是不值得的：我们的编译器已经警告了最烦人的解析(你可以使用大括号初始化或者添加括号来解决这个问题)，并且窄化转换的安全性不值得为可读性去使用大括号初始化(我们最终需要一个不同的解决方案来进行窄化转换)。风格仲裁者任务这个问题不足以制作一个正式的规则，特别是因为在某些情况下(尤其是在通用代码中)大括号初始化可能是合理的。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2022/04/25/Totw-88-initialize/">https://www.otarutech.com/2022/04/25/Totw-88-initialize/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C-11/">C++11</a><a class="post-meta__tags" href="/tags/C-Tips/">C++Tips</a><a class="post-meta__tags" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96/">初始化</a></div><div class="post_share"><div class="social-share" data-image="/img/C++Tips-88.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/04/25/fastdds-02-getting-started/"><img class="prev-cover" src="/img/fastdds-02-getting-started.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Fast DDS 入门</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/25/Totw-93-span/"><img class="next-cover" src="/img/C++Tips-95.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Tip of the Week 93 使用absl::Span</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/16/Totw-1-string-view/" title="Tip of the Week 1 string_view"><img class="cover" src="/img/C++Tips-1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-16</div><div class="title">Tip of the Week 1 string_view</div></div></a></div><div><a href="/2022/03/21/Totw-10-string-split/" title="Tip of the Week 10 分割字符串，不必拘小节"><img class="cover" src="/img/C++Tips-10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="title">Tip of the Week 10 分割字符串，不必拘小节</div></div></a></div><div><a href="/2022/03/28/Totw-11-return-policy/" title="Tip of the Week 11 返回策略"><img class="cover" src="/img/C++Tips-11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-28</div><div class="title">Tip of the Week 11 返回策略</div></div></a></div><div><a href="/2022/04/28/Totw-112-emplace-push-back/" title="Tip of the Week 112 emplace与push_back"><img class="cover" src="/img/C++Tips-112.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-28</div><div class="title">Tip of the Week 112 emplace与push_back</div></div></a></div><div><a href="/2022/05/05/Totw-116-const-ref-pointer/" title="Tip of the Week 116 保留多参数的引用"><img class="cover" src="/img/C++Tips-116.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-05</div><div class="title">Tip of the Week 116 保留多参数的引用</div></div></a></div><div><a href="/2022/05/08/Totw-123-optional-unique-ptr/" title="Tip of the Week 123 absl::optional和std::unique_ptr"><img class="cover" src="/img/C++Tips-123.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">Tip of the Week 123 absl::optional和std::unique_ptr</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tip-of-the-Week-88-%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9A-%E5%92%8C"><span class="toc-number">1.</span> <span class="toc-text">Tip of the Week#88: 初始化：&#x3D;,()和{}</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-11%E6%8B%AC%E5%8F%B7%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">C++11括号初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E9%97%B4"><span class="toc-number">1.2.</span> <span class="toc-text">关于初始化的最佳时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">1.3.</span> <span class="toc-text">结论</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/C++Tips-88.png')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>bazel构建C++工程 | 我是Android开发者</title><meta name="keywords" content="bazel"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. bazel介绍Bazel是一个开源的构建和测试工具，类似于Make、Maven和Gradel。Bazel支持多种语言的项目，并未多种平台构建输出。Bazel支持跨多个存储库和大量用户的大型代码库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bazel构建C++工程">
+<meta property="og:url" content="https://www.otarutech.com/2021/12/24/bazel-1-build-cpp/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="1. bazel介绍Bazel是一个开源的构建和测试工具，类似于Make、Maven和Gradel。Bazel支持多种语言的项目，并未多种平台构建输出。Bazel支持跨多个存储库和大量用户的大型代码库。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/bazel.jpg">
+<meta property="article:published_time" content="2021-12-24T00:01:40.000Z">
+<meta property="article:modified_time" content="2026-02-23T16:38:03.194Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="bazel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/bazel.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2021/12/24/bazel-1-build-cpp/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'bazel构建C++工程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 00:38:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/bazel.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">bazel构建C++工程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-24T00:01:40.000Z" title="发表于 2021-12-24 08:01:40">2021-12-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-23T16:38:03.194Z" title="更新于 2026-02-24 00:38:03">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-C/">C/C++</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-C/bazel/">bazel</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">19k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="bazel构建C++工程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-bazel介绍"><a href="#1-bazel介绍" class="headerlink" title="1. bazel介绍"></a>1. bazel介绍</h2><p>Bazel是一个开源的构建和测试工具，类似于Make、Maven和Gradel。Bazel支持多种语言的项目，并未多种平台构建输出。Bazel支持跨多个存储库和大量用户的大型代码库。</p>
+<span id="more"></span>
+
+<h2 id="2-bazel安装"><a href="#2-bazel安装" class="headerlink" title="2. bazel安装"></a>2. bazel安装</h2><p>bazel安装有两种方法，一种是通过安装，另一个是通过下载安装包本地安装。ubuntu系统建议使用第一种安装方式。</p>
+<p>第一步：添加bazel分发url作为包源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install curl gnupg</span><br><span class="line">curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8&quot;</span> | sudo tee /etc/apt/sources.list.d/bazel.list</span><br></pre></td></tr></table></figure>
+
+<p>第二步：安装或者更新bazel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt install bazel</span><br></pre></td></tr></table></figure>
+
+<p>如果已经安装了bazel，需要升级到最新版本的bazel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt full-upgrade</span><br></pre></td></tr></table></figure>
+
+<p>安装特定版本的bazel，例如安装bazel-1.0.0</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install bazel-1.0.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-bazel构建工程"><a href="#3-bazel构建工程" class="headerlink" title="3. bazel构建工程"></a>3. bazel构建工程</h2><p>bazel里面有构建C++工程的例子，可以通过命令<code>git clone [https://github.com/bazelbuild/examples](https://github.com/bazelbuild/examples)</code>下载，需要的代码位于example/cpp-tutorial目录中，目录结构如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">cpp-tutorial/</span><br><span class="line">|-- README.md</span><br><span class="line">|-- stage1</span><br><span class="line">|   |-- README.md</span><br><span class="line">|   |-- WORKSPACE</span><br><span class="line">|   `-- main</span><br><span class="line">|       |-- BUILD</span><br><span class="line">|       `-- hello-world.cc</span><br><span class="line">|-- stage2</span><br><span class="line">|   |-- README.md</span><br><span class="line">|   |-- WORKSPACE</span><br><span class="line">|   `-- main</span><br><span class="line">|       |-- BUILD</span><br><span class="line">|       |-- hello-greet.cc</span><br><span class="line">|       |-- hello-greet.h</span><br><span class="line">|       `-- hello-world.cc</span><br><span class="line">`-- stage3</span><br><span class="line">    |-- README.md</span><br><span class="line">    |-- WORKSPACE</span><br><span class="line">    |-- lib</span><br><span class="line">    |   |-- BUILD</span><br><span class="line">    |   |-- hello-time.cc</span><br><span class="line">    |   `-- hello-time.h</span><br><span class="line">    `-- main</span><br><span class="line">        |-- BUILD</span><br><span class="line">        |-- hello-greet.cc</span><br><span class="line">        |-- hello-greet.h</span><br><span class="line">        `-- hello-world.cc</span><br></pre></td></tr></table></figure>
+
+<p>下面对这个C++工程进行解析。</p>
+<h3 id="3-1-设置工作区"><a href="#3-1-设置工作区" class="headerlink" title="3.1 设置工作区"></a>3.1 设置工作区</h3><p>在构建项目之前，需要设置项目工作区，这个工作区就是一个包含项目源文件的目录和bazel构建输出，bazel识别<code>WORKSPACE</code>和<code>BUILD</code>这两个文件。</p>
+<ul>
+<li>WORKSPACE文件将目录及其内容识别为Bazel工作区，位于项目目录结构的根目录中</li>
+<li>BUILD文件会有一个或者多个，分别构建项目的不同部分</li>
+</ul>
+<h3 id="3-2-理解BUILD文件"><a href="#3-2-理解BUILD文件" class="headerlink" title="3.2 理解BUILD文件"></a>3.2 理解BUILD文件</h3><p><code>BUILD</code>文件包含Bazel的几种不同类型的指令，最重要的啥类型是构建规则，它告诉bazel如何构建所需的输出，比如可执行的二进制文件或者动态/静态库。构建文件中构建规则的每个实例称为目标，并指向一组特定的源文件和依赖项。一个目标也可以指向其它目标。</p>
+<p>看一下<code>cpp-tutorial/stage1/main</code>中BUILD文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cc_binary(</span><br><span class="line">    name = <span class="string">&quot;hello-world&quot;</span>,</span><br><span class="line">    srcs = [<span class="string">&quot;hello-world.cc&quot;</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>在示例中，<code>hello-world</code>目标实例化了bazel的内置<code>cc_binary</code>规则。规则告诉bazel建立一个独立的可执行二进制<code>hello-world.cc</code>源文件没有依赖性。</p>
+<h3 id="3-3-使用bazel编译项目"><a href="#3-3-使用bazel编译项目" class="headerlink" title="3.3 使用bazel编译项目"></a>3.3 使用bazel编译项目</h3><p>构建示例项目，切换到cpp-tutorial/stage1目录，运行以下命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bazel build //main:hello-world</span><br></pre></td></tr></table></figure>
+
+<p>注意目标标签 —— <code>//main:</code>部分是构建文件相当于工作区根的位置，<code>helllo-world</code>是我们在构建文件中命名的目标。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bazel build //main:hello-world</span><br><span class="line">Starting <span class="built_in">local</span> Bazel server and connecting to it...</span><br><span class="line">INFO: Analyzed target //main:hello-world (15 packages loaded, 57 targets configured).</span><br><span class="line">INFO: Found 1 target...</span><br><span class="line">Target //main:hello-world up-to-date:</span><br><span class="line">  bazel-bin/main/hello-world</span><br><span class="line">INFO: Elapsed time: 2.342s, Critical Path: 0.30s</span><br><span class="line">INFO: 6 processes: 4 internal, 2 processwrapper-sandbox.</span><br><span class="line">INFO: Build completed successfully, 6 total actions</span><br></pre></td></tr></table></figure>
+
+<p>测试输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./bazel-bin/main/hello-world</span><br><span class="line">Hello world</span><br><span class="line">Thu Dec 23 13:24:20 2021</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-查看依赖图"><a href="#3-4-查看依赖图" class="headerlink" title="3.4 查看依赖图"></a>3.4 查看依赖图</h3><p>成功的构建将在构建文件中现实的生命其所有依赖项。Bazel使用这些语句创建项目的依赖关系图，从而实现精确的增量构建。将示例项目的依赖关系可视化。首先，生成依赖关系图的文本表示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bazel query --notool_deps --noimplicit_deps <span class="string">&quot;deps(//main:hello-world)&quot;</span> \</span><br><span class="line">  --output graph</span><br></pre></td></tr></table></figure>
+
+<p>上面的命令告诉bazel寻找target <code>//main:hello-world</code>的所有依赖项，并将输出格式化为图形，然后可以使用<code>GraphViz</code>查看。</p>
+<p>可以通过管道直接输出到xdot来生成和查看图形：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt install graphviz xdot</span><br></pre></td></tr></table></figure>
+
+<p>生成图形：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xdot &lt;(bazel query --notool_deps --noimplicit_deps <span class="string">&quot;deps(//main:hello-world)&quot;</span> \</span><br><span class="line">  --output graph)</span><br></pre></td></tr></table></figure>
+
+<p>依赖图如下：</p>
+<img src="/2021/12/24/bazel-1-build-cpp/bazel.drawio.png" class="" title="bazel.drawio.png">
+
+<h3 id="3-5-多个目标文件-target-编译"><a href="#3-5-多个目标文件-target-编译" class="headerlink" title="3.5 多个目标文件(target)编译"></a>3.5 多个目标文件(target)编译</h3><p>将示例项目构建分成两个目标。看一下<code>cpp-tutorial/stage2/</code>主目录中的构建文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cc_library(</span><br><span class="line">    name = <span class="string">&quot;hello-greet&quot;</span>,</span><br><span class="line">    srcs = [<span class="string">&quot;hello-greet.cc&quot;</span>],</span><br><span class="line">    hdrs = [<span class="string">&quot;hello-greet.h&quot;</span>],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">cc_binary(</span><br><span class="line">    name = <span class="string">&quot;hello-world&quot;</span>,</span><br><span class="line">    srcs = [<span class="string">&quot;hello-world.cc&quot;</span>],</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;:hello-greet&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>对于这个构建文件，bazel首先构建<code>hello-greet</code>库(使用bazel内置的cc_library规则)，然后构建<code>hello-world</code>二进制文件。<code>hello-world</code>目标中<code>deps</code>属性告诉bazel需要<code>hello-greet</code>库来构建<code>hello-world</code>二进制文件。</p>
+<p>切换到cpp-tutorial/stage2目录。运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bazel build //main:hello-world</span><br><span class="line">Starting <span class="built_in">local</span> Bazel server and connecting to it...</span><br><span class="line">INFO: Analyzed target //main:hello-world (15 packages loaded, 60 targets configured).</span><br><span class="line">INFO: Found 1 target...</span><br><span class="line">Target //main:hello-world up-to-date:</span><br><span class="line">  bazel-bin/main/hello-world</span><br><span class="line">INFO: Elapsed time: 1.974s, Critical Path: 0.20s</span><br><span class="line">INFO: 7 processes: 4 internal, 3 processwrapper-sandbox.</span><br><span class="line">INFO: Build completed successfully, 7 total actions</span><br></pre></td></tr></table></figure>
+
+<p>依赖关系如下：</p>
+<img src="/2021/12/24/bazel-1-build-cpp/bazel2.drawio.png" class="" title="bazel2.drawio.png">
+
+<h3 id="3-6-多个项目包-packages-编译"><a href="#3-6-多个项目包-packages-编译" class="headerlink" title="3.6 多个项目包(packages)编译"></a>3.6 多个项目包(packages)编译</h3><p>将项目分离成多个包，看一下cpp-tutorial/stage3目录的内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">|-- README.md</span><br><span class="line">|-- WORKSPACE</span><br><span class="line">|-- lib</span><br><span class="line">|   |-- BUILD</span><br><span class="line">|   |-- hello-time.cc</span><br><span class="line">|   `-- hello-time.h</span><br><span class="line">`-- main</span><br><span class="line">    |-- BUILD</span><br><span class="line">    |-- hello-greet.cc</span><br><span class="line">    |-- hello-greet.h</span><br><span class="line">    `-- hello-world.cc</span><br></pre></td></tr></table></figure>
+
+<p>现在有两个子目录，每个子目录都包含一个<code>BUILD</code>文件。因此，对于bazel来说，工作空间现在包含两个包，<code>lib</code>和<code>main</code>，先看一下<code>lib/BUILD</code>文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">load(<span class="string">&quot;@rules_cc//cc:defs.bzl&quot;</span>, <span class="string">&quot;cc_library&quot;</span>)</span><br><span class="line"></span><br><span class="line">cc_library(</span><br><span class="line">    name = <span class="string">&quot;hello-time&quot;</span>,</span><br><span class="line">    srcs = [<span class="string">&quot;hello-time.cc&quot;</span>],</span><br><span class="line">    hdrs = [<span class="string">&quot;hello-time.h&quot;</span>],</span><br><span class="line">    visibility = [<span class="string">&quot;//main:__pkg__&quot;</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>还有<code>main/BUILD</code>文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">load(<span class="string">&quot;@rules_cc//cc:defs.bzl&quot;</span>, <span class="string">&quot;cc_binary&quot;</span>, <span class="string">&quot;cc_library&quot;</span>)</span><br><span class="line"></span><br><span class="line">cc_library(</span><br><span class="line">    name = <span class="string">&quot;hello-greet&quot;</span>,</span><br><span class="line">    srcs = [<span class="string">&quot;hello-greet.cc&quot;</span>],</span><br><span class="line">    hdrs = [<span class="string">&quot;hello-greet.h&quot;</span>],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">cc_binary(</span><br><span class="line">    name = <span class="string">&quot;hello-world&quot;</span>,</span><br><span class="line">    srcs = [<span class="string">&quot;hello-world.cc&quot;</span>],</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;:hello-greet&quot;</span>,</span><br><span class="line">        <span class="string">&quot;//lib:hello-time&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>主包中的<code>hello-world</code>目标依赖于lib包中的hello-time目标(因此是目标标签<code>//lib:hello-time</code>)——bazel通过<code>deps</code>属性知道这一点。依赖关系：</p>
+<img src="/2021/12/24/bazel-1-build-cpp/bazel3.drawio.png" class="" title="bazel3.drawio.png">
+
+<p>注意，为了使构建成功，使用<code>visibility</code>属性使得<code>lib/BUILD</code>中的<code>//lib:hello-time</code>目标对于<code>main/BUILD</code>中的目标显示可见。这是因为默认情况下，目标只对同一构建文件中的其它目标可见。(Bazel使用目标可见性来防止诸如库中包含的实现细节泄漏到公共API等问题)</p>
+<p>编译和运行和上面一致：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">bazel build //main:hello-world</span><br><span class="line">Starting <span class="built_in">local</span> Bazel server and connecting to it...</span><br><span class="line">INFO: Analyzed target //main:hello-world (16 packages loaded, 63 targets configured).</span><br><span class="line">INFO: Found 1 target...</span><br><span class="line">Target //main:hello-world up-to-date:</span><br><span class="line">  bazel-bin/main/hello-world</span><br><span class="line">INFO: Elapsed time: 2.743s, Critical Path: 0.20s</span><br><span class="line">INFO: 8 processes: 4 internal, 4 processwrapper-sandbox.</span><br><span class="line">INFO: Build completed successfully, 8 total actions</span><br><span class="line"></span><br><span class="line">./bazel-bin/main/hello-world</span><br><span class="line">Hello world</span><br><span class="line">Thu Dec 23 13:58:17 2021</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/3.4.0/install-ubuntu.html">Google开源构建工具Bazel</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.bazel.build/versions/3.4.0/tutorial/cpp.html">Introduction to Bazel: Build a C++ Project</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2021/12/24/bazel-1-build-cpp/">https://www.otarutech.com/2021/12/24/bazel-1-build-cpp/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/bazel/">bazel</a></div><div class="post_share"><div class="social-share" data-image="/img/bazel.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/03/Android-Ashmem/"><img class="prev-cover" src="/img/android-ashmem.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android匿名共享内存ashmem</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/18/Linux-kfifo/"><img class="next-cover" src="/img/kfifo.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">巧妙的kfifo</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-bazel%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">1. bazel介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-bazel%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">2. bazel安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-bazel%E6%9E%84%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">3. bazel构建工程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E8%AE%BE%E7%BD%AE%E5%B7%A5%E4%BD%9C%E5%8C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 设置工作区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E7%90%86%E8%A7%A3BUILD%E6%96%87%E4%BB%B6"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 理解BUILD文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%BD%BF%E7%94%A8bazel%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 使用bazel编译项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%9F%A5%E7%9C%8B%E4%BE%9D%E8%B5%96%E5%9B%BE"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 查看依赖图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E5%A4%9A%E4%B8%AA%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6-target-%E7%BC%96%E8%AF%91"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 多个目标文件(target)编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E5%A4%9A%E4%B8%AA%E9%A1%B9%E7%9B%AE%E5%8C%85-packages-%E7%BC%96%E8%AF%91"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 多个项目包(packages)编译</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈希表性能分析实战"/></a><div class="content"><a class="title" href="/2026/02/23/2026-02-24-hashtable-performance/" title="哈希表性能分析实战">哈希表性能分析实战</a><time datetime="2026-02-23T16:17:00.000Z" title="发表于 2026-02-24 00:17:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪"><img src="/img/kernel-trace-debug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核调试之动态追踪"/></a><div class="content"><a class="title" href="/2023/06/17/linux-kernel-dynamic-debug-tech/" title="Linux内核调试之动态追踪">Linux内核调试之动态追踪</a><time datetime="2023-06-17T15:00:04.000Z" title="发表于 2023-06-17 23:00:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算"><img src="/img/where-is-linux-memory.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的内存呢？Linux MemAvailable 如何计算"/></a><div class="content"><a class="title" href="/2023/06/17/where-is-linux-memory/" title="我的内存呢？Linux MemAvailable 如何计算">我的内存呢？Linux MemAvailable 如何计算</a><time datetime="2023-06-17T14:49:04.000Z" title="发表于 2023-06-17 22:49:04">2023-06-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建Android系统模拟器开发环境"/></a><div class="content"><a class="title" href="/2022/12/11/Android-Emulator-Dev/" title="搭建Android系统模拟器开发环境">搭建Android系统模拟器开发环境</a><time datetime="2022-12-11T03:59:57.000Z" title="发表于 2022-12-11 11:59:57">2022-12-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/bazel.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
