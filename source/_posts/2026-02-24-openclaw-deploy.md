@@ -145,24 +145,24 @@ OpenClaw 支持多种 AI 提供商。在配置文件中添加：
 
 <Tabs>
   <Tab title="macOS / Linux">
-    | 命令 | 说明 |
-    |------|------|
-    | `openclaw gateway start` | 启动网关 |
-    | `openclaw gateway stop` | 停止网关 |
-    | `openclaw gateway restart` | 重启网关 |
-    | `openclaw status` | 查看状态 |
-    | `openclaw dashboard` | 打开控制面板 |
-    | `openclaw message send` | 发送消息 |
+
+- `openclaw gateway start` - 启动网关
+- `openclaw gateway stop` - 停止网关
+- `openclaw gateway restart` - 重启网关
+- `openclaw status` - 查看状态
+- `openclaw dashboard` - 打开控制面板
+- `openclaw message send` - 发送消息
+
   </Tab>
   <Tab title="Windows">
-    | 命令 | 说明 |
-    |------|------|
-    | `openclaw gateway start` | 启动网关 |
-    | `openclaw gateway stop` | 停止网关 |
-    | `openclaw gateway restart` | 重启网关 |
-    | `openclaw status` | 查看状态 |
-    | `openclaw dashboard` | 打开控制面板 |
-    | `openclaw message send` | 发送消息 |
+
+- `openclaw gateway start` - 启动网关
+- `openclaw gateway stop` - 停止网关
+- `openclaw gateway restart` - 重启网关
+- `openclaw status` - 查看状态
+- `openclaw dashboard` - 打开控制面板
+- `openclaw message send` - 发送消息
+
   </Tab>
 </Tabs>
 
