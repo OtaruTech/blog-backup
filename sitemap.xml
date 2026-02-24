@@ -2,27 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.otarutech.com/categories/index.html</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/tags/index.html</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.otarutech.com/2022/04/27/fastdds-04-shm-ringbuffer/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -31,7 +13,7 @@
   <url>
     <loc>https://www.otarutech.com/2023/06/17/linux-kernel-dynamic-debug-tech/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,7 +22,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/20/system-perf-01-introducing/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -49,7 +31,25 @@
   <url>
     <loc>https://www.otarutech.com/2023/06/17/where-is-linux-memory/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/categories/index.html</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/index.html</loc>
+    
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -58,16 +58,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/26/fastdds-03-shm-arch/</loc>
     
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2022/03/14/c-11-thread/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -76,7 +67,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/14/c-11-time-chrono/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -85,7 +76,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/23/fastdds-01-introduce-install/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -94,7 +85,16 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/25/fastdds-02-getting-started/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2022/03/14/c-11-thread/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -103,7 +103,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/17/c-11-call-once/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -112,7 +112,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/12/c-11-condition-var/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -121,7 +121,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/16/c-11-this-thread/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -130,7 +130,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/17/c-11-thread-sync/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -139,7 +139,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-03/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -148,7 +148,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-01/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -157,25 +157,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-02/</loc>
     
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -184,7 +166,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/27/Totw-65-emplace/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -193,7 +175,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/30/Totw-77-temp-move-copy/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -202,7 +184,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/25/Totw-88-initialize/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -211,7 +193,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/04/25/Totw-93-span/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -220,7 +202,7 @@
   <url>
     <loc>https://www.otarutech.com/2021/12/24/bazel-1-build-cpp/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -229,7 +211,7 @@
   <url>
     <loc>https://www.otarutech.com/2021/12/18/Linux-kfifo/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -238,7 +220,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/16/Totw-1-string-view/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -247,16 +229,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/21/Totw-10-string-split/</loc>
     
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -265,7 +238,16 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/28/Totw-11-return-policy/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -274,7 +256,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/05/Totw-116-const-ref-pointer/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -283,7 +265,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/08/Totw-123-optional-unique-ptr/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -292,16 +274,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/05/08/Totw-126-make-unique/</loc>
     
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2022/03/21/Totw-3-StrCat/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -310,7 +283,34 @@
   <url>
     <loc>https://www.otarutech.com/2022/03/28/Totw-24-copies-abbrv/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2022/03/21/Totw-3-StrCat/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -319,7 +319,7 @@
   <url>
     <loc>https://www.otarutech.com/2021/02/17/Android-dma-buf-1-Overview/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -328,124 +328,7 @@
   <url>
     <loc>https://www.otarutech.com/2021/12/18/Linux-ThreadPool/</loc>
     
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/16/Android-ION-2-sample/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-1-Overview/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2021/02/16/Android-ION-3-DMA-BUF/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-2-LinuxKernel/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-3-IMS-StartFlow/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/18/Android-InputSystem-4-EventHub/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2021/12/17/Android-SmartPointer/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-1-overview/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-2-Hello-World/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-3-register-callback/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-4-Performance/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-5-Design/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -454,7 +337,124 @@
   <url>
     <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-6-FMQ/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/16/Android-ION-2-sample/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2021/02/16/Android-ION-3-DMA-BUF/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-1-Overview/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-2-LinuxKernel/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-3-IMS-StartFlow/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/18/Android-InputSystem-4-EventHub/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2021/12/17/Android-SmartPointer/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-1-overview/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-2-Hello-World/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-3-register-callback/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-4-Performance/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-5-Design/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -463,25 +463,7 @@
   <url>
     <loc>https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/</loc>
     
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2088/12/18/0-blog-introduction/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/2026/02/23/2026-02-24-hashtable-performance/</loc>
-    
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -490,7 +472,43 @@
   <url>
     <loc>https://www.otarutech.com/2022/01/03/Android-Ashmem/</loc>
     
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2088/12/18/0-blog-introduction/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2026/02/24/2026-02-24-android-boot-flow/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2026/02/23/2026-02-24-hashtable-performance/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/2026/02/24/2026-02-24-openclaw-deploy/</loc>
+    
+    <lastmod>2026-02-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -499,260 +517,309 @@
 
   <url>
     <loc>https://www.otarutech.com/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
+    <loc>https://www.otarutech.com/tags/Android/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/Bootloader/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/Kernel/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/Init/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.otarutech.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/C/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/Abseil/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/OpenClaw/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/tags/AI-Assistant/</loc>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E5%86%85%E5%AD%98/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/ashmem/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/tags/Android/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/ION/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/Linux/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/Thread/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/kfifo/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/RingBuffer/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/FIFO/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/C-11/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/string-view/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/C-Tips/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/StrSplit/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/StrCat/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/move/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E5%88%9D%E5%A7%8B%E5%8C%96/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/absl-Span/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/bazel/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/benchmark/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/thread/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/chrono/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/FastDDS/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/DDS/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E5%86%85%E6%A0%B8%E5%8A%A8%E6%80%81%E8%BF%BD%E8%B8%AA/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/System-Performance/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/tags/Memory/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -760,134 +827,141 @@
 
   
   <url>
-    <loc>https://www.otarutech.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.otarutech.com/categories/Android/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.otarutech.com/categories/Android/HIDL/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://www.otarutech.com/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/categories/%E5%B7%A5%E5%85%B7%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Android/Ashmem/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/categories/Android/HIDL/</loc>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Android/ION%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Android/Input%E5%AD%90%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Android/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Android/dma-buf/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Linux/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/C-Tips-of-the-Week/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/C-C/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/C/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/categories/FastDDS/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Linux/C-C/</loc>
-    <lastmod>2026-02-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.otarutech.com/categories/%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/Linux/Kernel/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/categories/FastDDS/</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.otarutech.com/categories/%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/C-C/bazel/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/C-C/benchmark/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.otarutech.com/categories/C/C-11/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

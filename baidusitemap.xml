@@ -2,214 +2,222 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.otarutech.com/2022/04/27/fastdds-04-shm-ringbuffer/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2023/06/17/linux-kernel-dynamic-debug-tech/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/20/system-perf-01-introducing/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2023/06/17/where-is-linux-memory/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/26/fastdds-03-shm-arch/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/03/14/c-11-thread/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/14/c-11-time-chrono/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/23/fastdds-01-introduce-install/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/25/fastdds-02-getting-started/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/03/14/c-11-thread/</loc>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/17/c-11-call-once/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/12/c-11-condition-var/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/16/c-11-this-thread/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/17/c-11-thread-sync/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-03/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-01/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-02/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/27/Totw-65-emplace/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/30/Totw-77-temp-move-copy/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/25/Totw-88-initialize/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/25/Totw-93-span/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2021/12/24/bazel-1-build-cpp/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2021/12/18/Linux-kfifo/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/16/Totw-1-string-view/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/21/Totw-10-string-split/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/28/Totw-11-return-policy/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/05/Totw-116-const-ref-pointer/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/08/Totw-123-optional-unique-ptr/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/08/Totw-126-make-unique/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/03/21/Totw-3-StrCat/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/03/28/Totw-24-copies-abbrv/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/03/21/Totw-3-StrCat/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2021/02/17/Android-dma-buf-1-Overview/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2021/12/18/Linux-ThreadPool/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/16/Android-ION-2-sample/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-1-Overview/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2021/02/16/Android-ION-3-DMA-BUF/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-2-LinuxKernel/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-3-IMS-StartFlow/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/18/Android-InputSystem-4-EventHub/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2021/12/17/Android-SmartPointer/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-1-overview/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-2-Hello-World/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-3-register-callback/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-4-Performance/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-5-Design/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-6-FMQ/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/16/Android-ION-2-sample/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2021/02/16/Android-ION-3-DMA-BUF/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-1-Overview/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-2-LinuxKernel/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/17/Android-InputSystem-3-IMS-StartFlow/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/18/Android-InputSystem-4-EventHub/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2021/12/17/Android-SmartPointer/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-1-overview/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-2-Hello-World/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-3-register-callback/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-4-Performance/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-5-Design/</loc>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2088/12/18/0-blog-introduction/</loc>
-    <lastmod>2026-02-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2026/02/23/2026-02-24-hashtable-performance/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/01/03/Android-Ashmem/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2088/12/18/0-blog-introduction/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2026/02/24/2026-02-24-android-boot-flow/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2026/02/23/2026-02-24-hashtable-performance/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2026/02/24/2026-02-24-openclaw-deploy/</loc>
+    <lastmod>2026-02-24</lastmod>
   </url>
 </urlset> 
