@@ -8,7 +8,7 @@ tags:
   - Abseil
 categories:
   - 性能优化
-cover: /images/hashtable-performance.jpg?w=800
+cover: /images/hashtable-performance.jpg
 ---
 
 ## 哈希表性能分析
