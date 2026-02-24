@@ -19,24 +19,41 @@ OpenClaw 是一个多通道 AI 助手网关，支持 WhatsApp、Telegram、Disco
 ## 环境要求
 
 - **Node.js**: 22.x 或更高版本
-- **操作系统**: macOS / Linux
+- **操作系统**: macOS / Linux / Windows
 - **网络**: 能够访问外部 API（用于连接 AI 服务）
 
 ## 安装步骤
 
 ### 1. 安装 OpenClaw
 
-在终端执行以下命令：
+<Tabs>
+  <Tab title="macOS / Linux">
+    在终端执行以下命令：
 
-```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
-```
+    ```bash
+    curl -fsSL https://openclaw.ai/install.sh | bash
+    ```
 
-或者使用 npm 全局安装：
+    或者使用 npm 全局安装：
 
-```bash
-npm install -g openclaw
-```
+    ```bash
+    npm install -g openclaw
+    ```
+  </Tab>
+  <Tab title="Windows (PowerShell)">
+    在 PowerShell 中执行以下命令：
+
+    ```powershell
+    iwr -useb https://openclaw.ai/install.ps1 | iex
+    ```
+
+    或者使用 npm 全局安装：
+
+    ```powershell
+    npm install -g openclaw
+    ```
+  </Tab>
+</Tabs>
 
 ### 2. 运行初始化向导
 
@@ -126,14 +143,28 @@ OpenClaw 支持多种 AI 提供商。在配置文件中添加：
 
 ## 常用命令
 
-| 命令 | 说明 |
-|------|------|
-| `openclaw gateway start` | 启动网关 |
-| `openclaw gateway stop` | 停止网关 |
-| `openclaw gateway restart` | 重启网关 |
-| `openclaw status` | 查看状态 |
-| `openclaw dashboard` | 打开控制面板 |
-| `openclaw message send` | 发送消息 |
+<Tabs>
+  <Tab title="macOS / Linux">
+    | 命令 | 说明 |
+    |------|------|
+    | `openclaw gateway start` | 启动网关 |
+    | `openclaw gateway stop` | 停止网关 |
+    | `openclaw gateway restart` | 重启网关 |
+    | `openclaw status` | 查看状态 |
+    | `openclaw dashboard` | 打开控制面板 |
+    | `openclaw message send` | 发送消息 |
+  </Tab>
+  <Tab title="Windows">
+    | 命令 | 说明 |
+    |------|------|
+    | `openclaw gateway start` | 启动网关 |
+    | `openclaw gateway stop` | 停止网关 |
+    | `openclaw gateway restart` | 重启网关 |
+    | `openclaw status` | 查看状态 |
+    | `openclaw dashboard` | 打开控制面板 |
+    | `openclaw message send` | 发送消息 |
+  </Tab>
+</Tabs>
 
 ## 常见问题
 
