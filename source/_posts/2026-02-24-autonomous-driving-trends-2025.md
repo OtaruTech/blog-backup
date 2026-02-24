@@ -8,6 +8,9 @@ tags:
   - 趋势
 categories:
   - 自动驾驶
+cover: /img/autonomous-driving.jpg
+
+  - 自动驾驶
 ---
 
 # 2025自动驾驶技术趋势

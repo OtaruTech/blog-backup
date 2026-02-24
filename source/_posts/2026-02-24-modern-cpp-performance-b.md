@@ -8,6 +8,9 @@ tags:
   - 模板元编程
 categories:
   - C++开发
+cover: /img/modern-cpp.jpg
+
+  - C++开发
 ---
 
 # 现代C++性能优化实战（下）

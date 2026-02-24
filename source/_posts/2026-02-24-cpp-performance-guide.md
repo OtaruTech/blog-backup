@@ -8,6 +8,7 @@ tags:
   - 内存优化
 categories:
   - C++开发
+cover: /img/cpp-performance.jpg
 ---
 
 # C++性能优化与效率完全指南

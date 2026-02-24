@@ -8,6 +8,9 @@ tags:
   - 测试
 categories:
   - 自动驾驶
+cover: /img/adas-testing.jpg
+
+  - 自动驾驶
 ---
 
 # ADAS验证自动化指南

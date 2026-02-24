@@ -9,6 +9,9 @@ tags:
   - 调度
 categories:
   - 系统开发
+cover: /img/linux-kernel.jpg
+
+  - 系统开发
 ---
 
 # Linux内核实时性能调优

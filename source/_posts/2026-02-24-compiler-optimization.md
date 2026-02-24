@@ -8,6 +8,9 @@ tags:
   - 优化
 categories:
   - C++开发
+cover: /img/compiler-optimization.jpg
+
+  - C++开发
 ---
 
 # 编译器优化完全指南

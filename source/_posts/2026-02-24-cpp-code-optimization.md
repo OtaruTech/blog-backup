@@ -8,6 +8,9 @@ tags:
   - 实时性能
 categories:
   - C++开发
+cover: /img/code-optimization.jpg
+
+  - C++开发
 ---
 
 # C/C++开发者代码优化终极指南

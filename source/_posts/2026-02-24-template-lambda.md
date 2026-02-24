@@ -9,6 +9,9 @@ tags:
   - SIMD
 categories:
   - C++开发
+cover: /img/modern-cpp.jpg
+
+  - C++开发
 ---
 
 # 模板Lambda加速C++性能
