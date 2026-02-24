@@ -21,6 +21,10 @@
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
+    <loc>https://www.otarutech.com/2022/04/23/fastdds-01-introduce-install/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
     <loc>https://www.otarutech.com/2022/04/25/fastdds-02-getting-started/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
@@ -33,15 +37,11 @@
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/04/23/fastdds-01-introduce-install/</loc>
+    <loc>https://www.otarutech.com/2022/03/17/c-11-call-once/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/04/12/c-11-condition-var/</loc>
-    <lastmod>2026-02-24</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/03/17/c-11-call-once/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
@@ -62,14 +62,6 @@
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/05/13/benchmark-02/</loc>
-    <lastmod>2026-02-24</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
-    <lastmod>2026-02-24</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
@@ -105,11 +97,11 @@
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
+    <loc>https://www.otarutech.com/2022/03/28/Totw-11-return-policy/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
-    <loc>https://www.otarutech.com/2022/03/28/Totw-11-return-policy/</loc>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-112-emplace-push-back/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
@@ -133,6 +125,14 @@
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
+    <loc>https://www.otarutech.com/2022/03/21/Totw-5-Disappearing-Act/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2022/04/28/Totw-55-unique-ptr/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
     <loc>https://www.otarutech.com/2021/02/17/Android-dma-buf-1-Overview/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
@@ -141,15 +141,15 @@
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
+    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-6-FMQ/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
     <loc>https://www.otarutech.com/2019/12/16/Android-ION-1-Overview/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
     <loc>https://www.otarutech.com/2019/12/16/Android-ION-2-sample/</loc>
-    <lastmod>2026-02-24</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2019/12/15/Android-HIDL-Study-6-FMQ/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
@@ -198,10 +198,6 @@
   </url>
   <url>
     <loc>https://www.otarutech.com/2022/12/11/Android-Emulator-Dev/</loc>
-    <lastmod>2026-02-24</lastmod>
-  </url>
-  <url>
-    <loc>https://www.otarutech.com/2026/02/24/2026-02-24-modern-cpp-performance-b/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
   <url>
@@ -258,6 +254,10 @@
   </url>
   <url>
     <loc>https://www.otarutech.com/2026/02/24/2026-02-24-modern-cpp-performance-a/</loc>
+    <lastmod>2026-02-24</lastmod>
+  </url>
+  <url>
+    <loc>https://www.otarutech.com/2026/02/24/2026-02-24-modern-cpp-performance-b/</loc>
     <lastmod>2026-02-24</lastmod>
   </url>
 </urlset> 
