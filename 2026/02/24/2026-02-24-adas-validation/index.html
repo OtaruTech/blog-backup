@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>ADAS验证自动化指南 | 我是Android开发者</title><meta name="keywords" content="ADAS,验证,自动化,测试"><meta name="author" content="木叶♀HinaTa"><meta name="copyright" content="木叶♀HinaTa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ADAS验证自动化指南 高级驾驶辅助系统的验证是复杂工程，本文介绍自动化验证方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADAS验证自动化指南">
+<meta property="og:url" content="https://www.otarutech.com/2026/02/24/2026-02-24-adas-validation/index.html">
+<meta property="og:site_name" content="我是Android开发者">
+<meta property="og:description" content="ADAS验证自动化指南 高级驾驶辅助系统的验证是复杂工程，本文介绍自动化验证方案">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.otarutech.com/img/banner.jpg">
+<meta property="article:published_time" content="2026-02-24T14:27:00.000Z">
+<meta property="article:modified_time" content="2026-02-24T14:21:06.801Z">
+<meta property="article:author" content="木叶♀HinaTa">
+<meta property="article:tag" content="ADAS">
+<meta property="article:tag" content="验证">
+<meta property="article:tag" content="自动化">
+<meta property="article:tag" content="测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.otarutech.com/img/banner.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://www.otarutech.com/2026/02/24/2026-02-24-adas-validation/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-7668513915026813',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 木叶♀HinaTa","link":"链接: ","source":"来源: 我是Android开发者","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ADAS验证自动化指南',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-24 22:21:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/banner.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我是Android开发者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ADAS验证自动化指南</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-24T14:27:00.000Z" title="发表于 2026-02-24 22:27:00">2026-02-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-24T14:21:06.801Z" title="更新于 2026-02-24 22:21:06">2026-02-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ADAS验证自动化指南"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="ADAS验证自动化指南"><a href="#ADAS验证自动化指南" class="headerlink" title="ADAS验证自动化指南"></a>ADAS验证自动化指南</h1><blockquote>
+<p>高级驾驶辅助系统的验证是复杂工程，本文介绍自动化验证方案</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>高级驾驶辅助系统 (ADAS) 的验证是复杂工程，本文介绍自动化验证方案。</p>
+<hr>
+<h2 id="1-ADAS测试挑战"><a href="#1-ADAS测试挑战" class="headerlink" title="1. ADAS测试挑战"></a>1. ADAS测试挑战</h2><h3 id="测试场景复杂度"><a href="#测试场景复杂度" class="headerlink" title="测试场景复杂度"></a>测试场景复杂度</h3><figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌──────────────────────────────────────────┐</span><br><span class="line">│           ADAS 测试维度                   │</span><br><span class="line">├──────────────────────────────────────────┤</span><br><span class="line">│  场景复杂度：                             │</span><br><span class="line">│  ├─ 正常场景 (<span class="number">90</span><span class="comment">%)                       │</span></span><br><span class="line">│  ├─ 边界场景 (<span class="number">7</span><span class="comment">%)                        │</span></span><br><span class="line">│  └─ 危险场景 (<span class="number">3</span><span class="comment">%) - 最关键               │</span></span><br><span class="line">├──────────────────────────────────────────┤</span><br><span class="line">│  传感器输入：                             │</span><br><span class="line">│  ├─ 相机图像                             │</span><br><span class="line">│  ├─ 激光点云                             │</span><br><span class="line">│  ├─ 雷达目标                             │</span><br><span class="line">│  └─ 组合输入                             │</span><br><span class="line">├──────────────────────────────────────────┤</span><br><span class="line">│  实时性要求：                             │</span><br><span class="line">│  └─ 毫秒级响应                           │</span><br><span class="line">└──────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-硬件在环-HIL-测试"><a href="#2-硬件在环-HIL-测试" class="headerlink" title="2. 硬件在环 (HIL) 测试"></a>2. 硬件在环 (HIL) 测试</h2><h3 id="HIL-系统架构"><a href="#HIL-系统架构" class="headerlink" title="HIL 系统架构"></a>HIL 系统架构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># HIL 测试框架示例</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HILTester</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.simulator = VehicleSimulator()</span><br><span class="line">        self.sensor_emulator = SensorEmulator()</span><br><span class="line">        self.dut = DeviceUnderTest()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run_test</span>(<span class="params">self, scenario</span>):</span></span><br><span class="line">        <span class="comment"># 1. 加载场景</span></span><br><span class="line">        self.simulator.load_scenario(scenario)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 2. 运行仿真</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> scenario.is_complete:</span><br><span class="line">            <span class="comment"># 生成传感器数据</span></span><br><span class="line">            sensor_data = self.simulator.get_sensor_data()</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 注入DUT</span></span><br><span class="line">            output = self.dut.process(sensor_data)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 验证结果</span></span><br><span class="line">            self.verify(output, scenario.expected)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 推进仿真</span></span><br><span class="line">            self.simulator.advance()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-软件在环-SIL-测试"><a href="#3-软件在环-SIL-测试" class="headerlink" title="3. 软件在环 (SIL) 测试"></a>3. 软件在环 (SIL) 测试</h2><h3 id="持续集成测试"><a href="#持续集成测试" class="headerlink" title="持续集成测试"></a>持续集成测试</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .gitlab-ci.yml 示例</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">validate</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sil_test:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cmake</span> <span class="string">-B</span> <span class="string">build</span> <span class="string">-DENABLE_SIL=ON</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">make</span> <span class="string">-j$(nproc)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ctest</span> <span class="string">--output-on-failure</span></span><br><span class="line">  <span class="attr">coverage:</span> <span class="string">&#x27;/Coverage: (\d+)%/&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-性能指标验证"><a href="#4-性能指标验证" class="headerlink" title="4. 性能指标验证"></a>4. 性能指标验证</h2><h3 id="关键指标"><a href="#关键指标" class="headerlink" title="关键指标"></a>关键指标</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>定义</th>
+<th>阈值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>召回率</td>
+<td>检出率</td>
+<td>&gt;95%</td>
+</tr>
+<tr>
+<td>误报率</td>
+<td>错误报警</td>
+<td>&lt;5%</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>响应时间</td>
+<td>&lt;100ms</td>
+</tr>
+<tr>
+<td>MTTF</td>
+<td>平均故障时间</td>
+<td>&gt;10000h</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5-自动化测试工具"><a href="#5-自动化测试工具" class="headerlink" title="5. 自动化测试工具"></a>5. 自动化测试工具</h2><h3 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>厂商</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CANoe</td>
+<td>总线仿真</td>
+<td>Vector</td>
+</tr>
+<tr>
+<td>SCANeR</td>
+<td>场景仿真</td>
+<td>AVL</td>
+</tr>
+<tr>
+<td>PreScan</td>
+<td>传感器仿真</td>
+<td>TASS</td>
+</tr>
+<tr>
+<td>VTD</td>
+<td>虚拟测试</td>
+<td>dSPACE</td>
+</tr>
+<tr>
+<td>Keysight PTDS</td>
+<td>动力测试</td>
+<td>Keysight</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="6-持续验证-CV"><a href="#6-持续验证-CV" class="headerlink" title="6. 持续验证 (CV)"></a>6. 持续验证 (CV)</h2><h3 id="DevOps-for-ADAS"><a href="#DevOps-for-ADAS" class="headerlink" title="DevOps for ADAS"></a>DevOps for ADAS</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">开发 ──→ 验证 ──→ 部署 ──→ 监控 ──→ 开发</span><br><span class="line">  ↑                              │</span><br><span class="line">  └──────────────────────────────┘</span><br><span class="line">       持续反馈循环</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>💡 <strong>核心观点</strong>：自动化验证是 ADAS 落地的关键！</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>测试阶段</th>
+<th>自动化程度</th>
+<th>覆盖场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单元测试</td>
+<td>100%</td>
+<td>模块级</td>
+</tr>
+<tr>
+<td>SIL</td>
+<td>95%</td>
+<td>功能级</td>
+</tr>
+<tr>
+<td>HIL</td>
+<td>80%</td>
+<td>系统级</td>
+</tr>
+<tr>
+<td>VIL</td>
+<td>50%</td>
+<td>整车级</td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>本文档基于 Keysight ADAS 验证方案扩展而成</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">木叶♀HinaTa</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.otarutech.com/2026/02/24/2026-02-24-adas-validation/">https://www.otarutech.com/2026/02/24/2026-02-24-adas-validation/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.otarutech.com" target="_blank">我是Android开发者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ADAS/">ADAS</a><a class="post-meta__tags" href="/tags/%E9%AA%8C%E8%AF%81/">验证</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a><a class="post-meta__tags" href="/tags/%E6%B5%8B%E8%AF%95/">测试</a></div><div class="post_share"><div class="social-share" data-image="/img/banner.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/02/24/2026-02-24-iaa-mobility-2025/"><img class="prev-cover" src="/img/banner.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">IAA Mobility 2025自动驾驶趋势</div></div></a></div><div class="next-post pull-right"><a href="/2026/02/24/2026-02-24-autonomous-driving-trends-2025/"><img class="next-cover" src="/img/banner.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">2025自动驾驶技术趋势</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/02/24/2026-02-24-autonomous-driving-trends-2025/" title="2025自动驾驶技术趋势"><img class="cover" src="/img/banner.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-24</div><div class="title">2025自动驾驶技术趋势</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">木叶♀HinaTa</div><div class="author-info__description">量的积累，质的飞跃</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/otarutech"><i class="fab fa-github"></i><span>关注我^_^</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/otarutech" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zhangjie201412@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">专注于自动驾驶和Android系统开发</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ADAS%E9%AA%8C%E8%AF%81%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">ADAS验证自动化指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-ADAS%E6%B5%8B%E8%AF%95%E6%8C%91%E6%88%98"><span class="toc-number">1.2.</span> <span class="toc-text">1. ADAS测试挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.2.1.</span> <span class="toc-text">测试场景复杂度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%A1%AC%E4%BB%B6%E5%9C%A8%E7%8E%AF-HIL-%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.</span> <span class="toc-text">2. 硬件在环 (HIL) 测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HIL-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">HIL 系统架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BD%AF%E4%BB%B6%E5%9C%A8%E7%8E%AF-SIL-%E6%B5%8B%E8%AF%95"><span class="toc-number">1.4.</span> <span class="toc-text">3. 软件在环 (SIL) 测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95"><span class="toc-number">1.4.1.</span> <span class="toc-text">持续集成测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E9%AA%8C%E8%AF%81"><span class="toc-number">1.5.</span> <span class="toc-text">4. 性能指标验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87"><span class="toc-number">1.5.1.</span> <span class="toc-text">关键指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-number">1.6.</span> <span class="toc-text">5. 自动化测试工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="toc-number">1.6.1.</span> <span class="toc-text">常用工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%8C%81%E7%BB%AD%E9%AA%8C%E8%AF%81-CV"><span class="toc-number">1.7.</span> <span class="toc-text">6. 持续验证 (CV)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DevOps-for-ADAS"><span class="toc-number">1.7.1.</span> <span class="toc-text">DevOps for ADAS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2088/12/18/0-blog-introduction/" title="博客导航"><img src="/img/tag_cate.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客导航"/></a><div class="content"><a class="title" href="/2088/12/18/0-blog-introduction/" title="博客导航">博客导航</a><time datetime="2088-12-18T00:46:02.000Z" title="发表于 2088-12-18 08:46:02">2088-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/24/2026-02-24-linux-realtime-kernel/" title="Linux内核实时性能调优"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux内核实时性能调优"/></a><div class="content"><a class="title" href="/2026/02/24/2026-02-24-linux-realtime-kernel/" title="Linux内核实时性能调优">Linux内核实时性能调优</a><time datetime="2026-02-24T14:29:00.000Z" title="发表于 2026-02-24 22:29:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/24/2026-02-24-iaa-mobility-2025/" title="IAA Mobility 2025自动驾驶趋势"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="IAA Mobility 2025自动驾驶趋势"/></a><div class="content"><a class="title" href="/2026/02/24/2026-02-24-iaa-mobility-2025/" title="IAA Mobility 2025自动驾驶趋势">IAA Mobility 2025自动驾驶趋势</a><time datetime="2026-02-24T14:28:00.000Z" title="发表于 2026-02-24 22:28:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/24/2026-02-24-adas-validation/" title="ADAS验证自动化指南"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADAS验证自动化指南"/></a><div class="content"><a class="title" href="/2026/02/24/2026-02-24-adas-validation/" title="ADAS验证自动化指南">ADAS验证自动化指南</a><time datetime="2026-02-24T14:27:00.000Z" title="发表于 2026-02-24 22:27:00">2026-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/24/2026-02-24-autonomous-driving-trends-2025/" title="2025自动驾驶技术趋势"><img src="/img/banner.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025自动驾驶技术趋势"/></a><div class="content"><a class="title" href="/2026/02/24/2026-02-24-autonomous-driving-trends-2025/" title="2025自动驾驶技术趋势">2025自动驾驶技术趋势</a><time datetime="2026-02-24T14:26:00.000Z" title="发表于 2026-02-24 22:26:00">2026-02-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/banner.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2026 By 木叶♀HinaTa</div><div class="footer_custom_text">知耻而后勇，不断进取！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
